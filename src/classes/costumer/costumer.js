@@ -12,4 +12,8 @@ export default class Costumer {
   EditName(newName) {
     this.name = newName;
   }
+
+  EditTable(newTable) {
+    this.table = newTable;
+  }
 }
