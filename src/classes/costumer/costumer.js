@@ -16,4 +16,8 @@ export default class Costumer {
   EditTable(newTable) {
     this.table = newTable;
   }
+
+  EditStatus(newStatus) {
+    this.status = newStatus;
+  }
 }
