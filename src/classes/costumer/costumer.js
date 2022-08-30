@@ -8,4 +8,8 @@ export default class Costumer {
   GetCostumer() {
     return [this.name, this.table, this.status];
   }
+
+  EditName(newName) {
+    this.name = newName;
+  }
 }
