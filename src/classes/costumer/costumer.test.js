@@ -78,3 +78,29 @@ test('Edit costumer table', () => {
   costumer4.EditTable(6);
   expect(costumer4.GetCostumer()).toStrictEqual(['Daniel', 6, 'Finalizado']);
 });
+
+test('Edit costumer status', () => {
+  costumer1.EditStatus('Finalizado');
+  expect(costumer1.GetCostumer()).toStrictEqual(['Gabriela', 2, 'Finalizado']);
+
+  costumer2.EditStatus('Pedido entregue');
+  expect(costumer2.GetCostumer()).toStrictEqual([
+    'Vinícius',
+    3,
+    'Pedido entregue',
+  ]);
+
+  costumer3.EditStatus('Aguardando atendimento');
+  expect(costumer3.GetCostumer()).toStrictEqual([
+    'Geovana',
+    4,
+    'Aguardando atendimento',
+  ]);
+
+  costumer4.EditStatus('Pedido em andamento');
+  expect(costumer4.GetCostumer()).toStrictEqual([
+    'Daniel',
+    6,
+    'Pedido em andamento',
+  ]);
+});
