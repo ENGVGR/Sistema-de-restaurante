@@ -1,23 +1,25 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-    "extends": ["airbnb", "plugin:prettier/recommended"],
-    "overrides": [],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        }
-    },
-    "plugins": ["prettier", "react"],
-
-    "rules": {
-        "react/jsx-filename-extension": [
-            1,
-            {
-                "extensions": [".js", ".jsx"]
-            }
-        ]
+  "parser": "@babel/eslint-parser",
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "jest": true
+  },
+  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "overrides": [],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     }
+  },
+  "plugins": ["prettier", "react"],
+
+  "rules": {
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx"]
+      }
+    ]
+  }
 }
