@@ -1,10 +1,12 @@
 import Costumer from './costumer';
 
+// Clientes teste
 const costumer1 = new Costumer('Alice', 1, 'Pedido em andamento');
 const costumer2 = new Costumer('Pedro', 2, 'Aguardando atendimento');
 const costumer3 = new Costumer('Fernanda', 3, 'Pedido entregue');
 const costumer4 = new Costumer('Felipe', 4, 'Finalizado');
 
+/** * Teste do método GetCostumer. Método responsável por retornar as informações do cliente. */
 test('Get costumer information', () => {
   expect(costumer1.GetCostumer()).toStrictEqual([
     'Alice',
@@ -27,6 +29,7 @@ test('Get costumer information', () => {
   expect(costumer4.GetCostumer()).toStrictEqual(['Felipe', 4, 'Finalizado']);
 });
 
+/** * Teste do método EditName. Método responsável por alterar o nome do cliente. */
 test('Edit costumer name', () => {
   costumer1.EditName('Gabriela');
   expect(costumer1.GetCostumer()).toStrictEqual([
@@ -53,6 +56,7 @@ test('Edit costumer name', () => {
   expect(costumer4.GetCostumer()).toStrictEqual(['Daniel', 4, 'Finalizado']);
 });
 
+/** * Teste do método EditTable. Método responsável por alterar o número da mesa do cliente. */
 test('Edit costumer table', () => {
   costumer1.EditTable(2);
   expect(costumer1.GetCostumer()).toStrictEqual([
@@ -79,6 +83,7 @@ test('Edit costumer table', () => {
   expect(costumer4.GetCostumer()).toStrictEqual(['Daniel', 6, 'Finalizado']);
 });
 
+/** * Teste do método EditStatus. Método responsável por alterar o status do cliente. */
 test('Edit costumer status', () => {
   costumer1.EditStatus('Finalizado');
   expect(costumer1.GetCostumer()).toStrictEqual(['Gabriela', 2, 'Finalizado']);
