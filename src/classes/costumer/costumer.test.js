@@ -104,21 +104,3 @@ test('Edit costumer status', () => {
     'Pedido em andamento',
   ]);
 });
-
-test('Remove costumer', () => {
-  expect(costumer1.RemoveCostumer()).toStrictEqual(
-    'Cliente removido com sucesso.'
-  );
-
-  expect(costumer2.RemoveCostumer()).toStrictEqual(
-    'Cliente removido com sucesso.'
-  );
-
-  expect(costumer3.RemoveCostumer()).toStrictEqual(
-    'Cliente removido com sucesso.'
-  );
-
-  expect(costumer4.RemoveCostumer()).toStrictEqual(
-    'Cliente removido com sucesso.'
-  );
-});

@@ -1,23 +1,31 @@
+// @flow
+
 export default class Costumer {
-  constructor(name, table, status) {
-    this.name = name;
-    this.table = table;
-    this.status = status;
+  name: string;
+
+  table: number;
+
+  status: string;
+
+  constructor(newName: string, newTable: number, newStatus: string) {
+    this.name = newName;
+    this.table = newTable;
+    this.status = newStatus;
   }
 
-  GetCostumer() {
+  GetCostumer(): Array<*> {
     return [this.name, this.table, this.status];
   }
 
-  EditName(newName) {
+  EditName(newName: string) {
     this.name = newName;
   }
 
-  EditTable(newTable) {
+  EditTable(newTable: number) {
     this.table = newTable;
   }
 
-  EditStatus(newStatus) {
+  EditStatus(newStatus: string) {
     this.status = newStatus;
   }
 }
