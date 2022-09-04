@@ -5,14 +5,18 @@
     "es2021": true,
     "jest": true
   },
-  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "extends": [
+    "airbnb",
+    "plugin:prettier/recommended",
+    "plugin:flowtype/recommended"
+  ],
   "overrides": [],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     }
   },
-  "plugins": ["prettier", "react"],
+  "plugins": ["prettier", "react", "flowtype"],
 
   "rules": {
     "react/jsx-filename-extension": [
