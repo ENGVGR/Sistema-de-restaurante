@@ -1,14 +1,17 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import NavBar from './index';
+import { cleanup, render, screen } from '@testing-library/react';
+import MyNavBar from './index';
+import '@testing-library/jest-dom/extend-expect';
 
-test('render navBar', () => {
-  render(<NavBar />);
+afterEach(cleanup);
 
-  expect(screen.getByRole('Navbar.Brand')).toHaveTextContent(/X Burger/);
-  expect(screen.getByRole('Navbar.Link')).toHaveTextContent(/Clientes/);
-  expect(screen.getByRole('Navbar.Link')).toHaveTextContent(/Pedidos/);
-  expect(screen.getByRole('Navbar.Link')).toHaveTextContent(/Cardápio/);
-  expect(screen.getByRole('Navbar.Link')).toHaveTextContent(/Estoque/);
-  expect(screen.getByRole('Navbar.Link')).toHaveTextContent(/Garçons/);
+it('render navBar', () => {
+  render(<MyNavBar />);
+
+  expect(screen.getByRole('title')).toHaveTextContent(/X Burger/);
+  expect(screen.getByRole('clientes')).toHaveTextContent(/Clientes/);
+  expect(screen.getByRole('pedidos')).toHaveTextContent(/Pedidos/);
+  expect(screen.getByRole('cardápio')).toHaveTextContent(/Cardápio/);
+  expect(screen.getByRole('estoque')).toHaveTextContent(/Estoque/);
+  expect(screen.getByRole('garçons')).toHaveTextContent(/Garçons/);
 });
