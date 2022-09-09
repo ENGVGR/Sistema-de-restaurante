@@ -1,0 +1,23 @@
+.menu {
+  background-color: #3b0032;
+  &-title {
+    text-align: center;
+    &__span {
+      font-size: 4vw;
+      color: #ebeaa9;
+    }
+  }
+  &-subtitle {
+    margin: 2vh 0vh 0vh 2vh;
+    &__span {
+      font-size: 2.5vw;
+      color: #ebeaa9;
+    }
+  }
+
+  &-itens {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 4vh 6vh 0vh 7vh;
+  }
+}

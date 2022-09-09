@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import MenuItem from './components/menuItem';
+import Menu from './pages/menu';
 
 function App() {
-  return <MenuItem />;
+  return <Menu />;
 }
 
 export default App;
