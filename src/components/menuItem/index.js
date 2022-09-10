@@ -20,7 +20,7 @@ type ReadOnlyProps = $ReadOnly<Props>;
 
 /**
  * @function MenuItem
- * @description Componente que retorna um card com as informações do alimento. Informações fornecidas como parâmetro da função.
+ * @description Componente que retorna um card com as informações do alimento. Informações fornecidas como parâmetro da função. Possui três tipos diferentes de retorno. Um para quando o cliente acessa, outro para quando o garçom acessa (pode adicionar ao pedido o item) e outro para quando o administrador acessa (pode adicionar, editar ou remover um item).
  * @param {string} name - Nome do alimento.
  * @param {number} price - Preço do alimento.
  * @param {number} quantity - Quantidade de estoque do alimento.
