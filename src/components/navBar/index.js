@@ -1,15 +1,24 @@
+// @flow
 import React from 'react';
 import './index.scss';
 import { Container, Nav, Navbar } from 'react-bootstrap';
+// $FlowFixMe
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function MyNavBar() {
-  const title = 'title';
-  const clientes = 'clientes';
-  const pedidos = 'pedidos';
-  const cardapio = 'cardápio';
-  const estoque = 'estoque';
-  const garcons = 'garçons';
+const title = 'title';
+const clientes = 'clientes';
+const pedidos = 'pedidos';
+const cardapio = 'cardápio';
+const estoque = 'estoque';
+const garcons = 'garçons';
+
+/**
+ * @function MyNavBar
+ * @description Componente que retorna a navBar do sistema.
+ * @return {html} Retorna a navBar do sistema.
+ */
+
+export default function MyNavBar(): any {
   return (
     <Navbar className="navBar">
       <Container>
