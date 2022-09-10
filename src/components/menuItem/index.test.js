@@ -4,10 +4,10 @@ import MenuItem from './index';
 import '@testing-library/jest-dom/extend-expect';
 
 afterEach(cleanup);
-const user = 'waiter';
+const user = 'costumer';
 
 if (user === 'waiter' || user === 'adm') {
-  it('render navBar', () => {
+  it('render menuItem', () => {
     render(<MenuItem />);
 
     expect(screen.getByRole('name')).toHaveTextContent(/Nome/);
@@ -16,7 +16,7 @@ if (user === 'waiter' || user === 'adm') {
     expect(screen.getByRole('ingredients')).toHaveTextContent(/Ingredientes/);
   });
 } else {
-  it('render navBar', () => {
+  it('render menuItem', () => {
     render(<MenuItem />);
 
     expect(screen.getByRole('name')).toHaveTextContent(/Nome/);

@@ -6,7 +6,14 @@ import MyNavBar from '../../components/navBar';
 
 const temporalyList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 const title = 'titleCardapio';
+const burguer = 'burguer';
+const drink = 'drink';
 
+/**
+ * @function Menu
+ * @description Tela do cardápio
+ * @return {html} Retorna a tela do cardápio.
+ */
 export default function Menu(): any {
   return (
     <div className="menu">
@@ -17,7 +24,9 @@ export default function Menu(): any {
         </span>
       </div>
       <div className="menu-subtitle">
-        <span className="menu-subtitle__span">Hambúrgueres:</span>
+        <span className="menu-subtitle__span" role={burguer}>
+          Hambúrgueres:
+        </span>
       </div>
       <div className="menu-itens">
         {temporalyList.map((i) => (
@@ -31,7 +40,9 @@ export default function Menu(): any {
         ))}
       </div>
       <div className="menu-subtitle">
-        <span className="menu-subtitle__span">Bebidas:</span>
+        <span className="menu-subtitle__span" role={drink}>
+          Bebidas:
+        </span>
       </div>
       <div className="menu-itens">
         {temporalyList.map((i) => (

@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^13.2.1",
     "babel-jest": "^29.0.1",
     "bootstrap": "^5.2.0",
+    "docdash": "^1.2.0",
     "eslint-plugin-flowtype": "^8.0.3",
     "identity-obj-proxy": "^3.0.0",
     "jsdoc": "^3.6.11",
@@ -31,7 +32,8 @@
     "lint": "eslint --fix main.js",
     "format": "prettier -w .",
     "docs": "jsdoc -c jsdoc.conf.json",
-    "build": "flow-remove-types src/ -d lib/"
+    "build": "flow-remove-types src/ -d lib/",
+    "jsdoc": "flow-remove-types src/ -d lib/ && jsdoc -a all -c jsdoc.json -r -R README.md lib/ -d docs/jsdoc"
   },
   "eslintConfig": {
     "extends": [
@@ -75,6 +77,9 @@
     "moduleNameMapper": {
       "\\.(css|scss)$": "identity-obj-proxy"
     },
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "testPathIgnorePatterns": [
+      "lib"
+    ]
   }
 }

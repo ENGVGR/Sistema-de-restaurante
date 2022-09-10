@@ -18,20 +18,33 @@ type Props = {
 
 type ReadOnlyProps = $ReadOnly<Props>;
 
+/**
+ * @function MenuItem
+ * @description Componente que retorna um card com as informações do alimento. Informações fornecidas como parâmetro da função.
+ * @param {string} name - Nome do alimento.
+ * @param {number} price - Preço do alimento.
+ * @param {number} quantity - Quantidade de estoque do alimento.
+ * @param {string} ingredients - Ingredientes do alimento.
+ * @return {html} Retorna a card com as informações, fornecidas, do alimento.
+ */
+
 export default function MenuItem(props: ReadOnlyProps): any {
   const { name, price, quantity, ingredients } = props;
 
   const user = 'costumer';
 
   return (
-    <Card className="text-center" style={{ width: '34vh', margin: '2vh' }}>
+    <Card
+      className="text-center"
+      style={{ width: 'calc(250px )', margin: '2vh' }}
+    >
       {user === 'costumer' && (
         <Card.Body style={{ background: '#3b0032' }}>
           <Card.Title style={{ color: '#EBEAA9' }} role={nameRole}>
             {name || 'Nome'}
           </Card.Title>
           <Card.Text style={{ color: '#EBEAA9' }} role={priceRole}>
-            {`R$ ${price},00` || 'Preço'}
+            {price ? `R$ ${price},00` : 'Preço'}
           </Card.Text>
           <Card.Text style={{ color: '#EBEAA9' }} role={ingredientsRole}>
             {ingredients || 'Ingredientes'}
@@ -44,10 +57,10 @@ export default function MenuItem(props: ReadOnlyProps): any {
             {name || 'Nome'}
           </Card.Title>
           <Card.Text style={{ color: '#EBEAA9' }} role={priceRole}>
-            {`R$ ${price},00` || 'Preço'}
+            {price ? `R$ ${price},00` : 'Preço'}
           </Card.Text>
           <Card.Text style={{ color: '#EBEAA9' }} role={quantityRole}>
-            {`${quantity} unidades` || 'Quantidade'}
+            {quantity ? `${quantity} unidades` : 'Quantidade'}
           </Card.Text>
           <Card.Text style={{ color: '#EBEAA9' }} role={ingredientsRole}>
             {ingredients || 'Ingredientes'}
@@ -62,10 +75,10 @@ export default function MenuItem(props: ReadOnlyProps): any {
             {name || 'Nome'}
           </Card.Title>
           <Card.Text style={{ color: '#EBEAA9' }} role={priceRole}>
-            {`R$ ${price},00` || 'Preço'}
+            {price ? `R$ ${price},00` : 'Preço'}
           </Card.Text>
           <Card.Text style={{ color: '#EBEAA9' }} role={quantityRole}>
-            {`${quantity} unidades` || 'Quantidade'}
+            {quantity ? `${quantity} unidades` : 'Quantidade'}
           </Card.Text>
           <Card.Text style={{ color: '#EBEAA9' }} role={ingredientsRole}>
             {ingredients || 'Ingredientes'}
