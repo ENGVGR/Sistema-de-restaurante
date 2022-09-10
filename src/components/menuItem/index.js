@@ -26,7 +26,7 @@ export default function MenuItem(props: ReadOnlyProps): any {
   return (
     <Card className="text-center" style={{ width: '34vh', margin: '2vh' }}>
       {user === 'costumer' && (
-        <Card.Body style={{ background: '#0E0B29' }}>
+        <Card.Body style={{ background: '#3b0032' }}>
           <Card.Title style={{ color: '#EBEAA9' }} role={nameRole}>
             {name || 'Nome'}
           </Card.Title>
