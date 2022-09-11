@@ -110,6 +110,16 @@ export default function Stock(): any {
     setEditItemId(null);
   };
 
+  const handleDeleteClick = (itemId) => {
+    const newItems = [...items];
+
+    const index = items.findIndex((item) => item.id === itemId);
+
+    newItems.splice(index, 1);
+
+    setItems(newItems);
+  };
+
   return (
     <div className="stock">
       <MyNavBar />
@@ -189,6 +199,12 @@ export default function Stock(): any {
                           onClick={(event) => handleEditClick(event, item)}
                         >
                           Editar
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteClick(item.id)}
+                        >
+                          Apagar
                         </button>
                       </td>
                     </tr>
