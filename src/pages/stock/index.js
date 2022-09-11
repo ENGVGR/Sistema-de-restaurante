@@ -60,29 +60,60 @@ export default function Stock(): any {
         </span>
       </div>
       <div className="stock-table">
-        <ReactBootStrap.Table
-          striped
-          boardered
-          hover
-          className="stock-table-striped"
-        >
-          <thead>
-            <tr>
-              <th scope="col">Nome</th>
-              <th scope="col">Preço (R$)</th>
-              <th scope="col">Quantidade</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item) => (
+        <form>
+          <ReactBootStrap.Table
+            striped
+            boardered
+            hover
+            className="stock-table-striped"
+          >
+            <thead>
               <tr>
-                <td>{item.nome}</td>
-                <td>{item.preco.toFixed(2)}</td>
-                <td>{item.quantidade}</td>
+                <th scope="col">Nome</th>
+                <th scope="col">Preço (R$)</th>
+                <th scope="col">Quantidade</th>
               </tr>
-            ))}
-          </tbody>
-        </ReactBootStrap.Table>
+            </thead>
+            <tbody>
+              {items.map((item) => (
+                <>
+                  <tr className="stock-table-striped-editable">
+                    <td>
+                      <input
+                        type="text"
+                        name="nome"
+                        required="required"
+                        placeholder="Insira um nome..."
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        step="0.01"
+                        name="preco"
+                        required="required"
+                        placeholder="Insira um preço..."
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        name="quantidade"
+                        required="required"
+                        placeholder="Insira uma quantidade..."
+                      />
+                    </td>
+                  </tr>
+                  <tr className="stock-table-striped-readOnly">
+                    <td>{item.nome}</td>
+                    <td>{item.preco.toFixed(2)}</td>
+                    <td>{item.quantidade}</td>
+                  </tr>
+                </>
+              ))}
+            </tbody>
+          </ReactBootStrap.Table>
+        </form>
       </div>
       <div className="stock-subtitle">
         <span className="stock-subtitle__span">Adicionar novo item</span>
