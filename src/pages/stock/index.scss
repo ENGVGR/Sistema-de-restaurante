@@ -1,0 +1,30 @@
+.stock {
+  background-color: #0e0b29;
+  &-title {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    &__span {
+      font-size: calc(25px + 1vw);
+      color: #ebeaa9;
+    }
+  }
+  &-table {
+    text-align: center;
+    width: 80%;
+    height: 100%;
+    margin-top: 20px;
+    margin: 0 auto;
+    font-size: calc(5px + 1vw);
+    border: 1px solid;
+
+    th{
+      background-color: #3b0032;
+      color: #EBEAA9
+    }
+
+    tr:hover {background-color: #7D2948;}
+    tr:nth-child(even) {background-color: #EBEAA9;}
+    tr:nth-child(odd) {background-color: #EBEAA0;}
+  }
+}
