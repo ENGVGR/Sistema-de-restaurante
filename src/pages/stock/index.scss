@@ -20,11 +20,23 @@
 
     th{
       background-color: #3b0032;
-      color: #EBEAA9
+      color: #ebeaa9
     }
 
-    tr:hover {background-color: #7D2948;}
-    tr:nth-child(even) {background-color: #EBEAA9;}
+    tr:nth-child(even) {background-color: #ebeaa9;}
     tr:nth-child(odd) {background-color: #EBEAA0;}
+    tr:hover {background-color: #EBEA99;}
+  }
+  &-subtitle {
+    margin: 5vh 0vh 1vh 2vh;
+    text-align: center;
+    &__span {
+      font-size: calc(10px + 1vw);
+      color: #ebeaa9;
+    }
+  }
+  &-form {
+    text-align: center;
+    margin-bottom: 10vh;
   }
 }
