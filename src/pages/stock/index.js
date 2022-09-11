@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import './index.scss';
 import * as ReactBootStrap from 'react-bootstrap';
 import MyNavBar from '../../components/navBar';
@@ -7,11 +7,13 @@ import MyNavBar from '../../components/navBar';
 const title = 'titleStock';
 
 const data = [
-  { nome: 'Pão', preco: 2.0, quantidade: 5 },
-  { nome: 'Batata', preco: 3.0, quantidade: 15 },
-  { nome: 'Queijo', preco: 2.5, quantidade: 10 },
-  { nome: 'Tomate', preco: 1.5, quantidade: 20 },
+  { id: 1, nome: 'Pão', preco: 2.0, quantidade: 5 },
+  { id: 2, nome: 'Batata', preco: 3.0, quantidade: 15 },
+  { id: 3, nome: 'Queijo', preco: 2.5, quantidade: 10 },
+  { id: 4, nome: 'Tomate', preco: 1.5, quantidade: 20 },
 ];
+
+let newId = 5;
 
 /**
  * @function Stock
@@ -20,11 +22,20 @@ const data = [
  */
 export default function Stock(): any {
   const [items, setItems] = useState(data);
+
   const [addFormData, setAddFormData] = useState({
     nome: '',
     preco: '',
     quantidade: '',
   });
+
+  const [editFormData, setEditFormData] = useState({
+    nome: '',
+    preco: '',
+    quantidade: '',
+  });
+
+  const [editItemId, setEditItemId] = useState(null);
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -38,17 +49,65 @@ export default function Stock(): any {
     setAddFormData(newFormData);
   };
 
+  const handleEditFormChange = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.getAttribute('name');
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...editFormData };
+    newFormData[fieldName] = fieldValue;
+
+    setEditFormData(newFormData);
+  };
+
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
     const newItem = {
+      id: newId,
       nome: addFormData.nome,
       preco: parseFloat(addFormData.preco),
       quantidade: parseInt(addFormData.quantidade, 10),
     };
+    newId += 1;
 
     const newItems = [...items, newItem];
     setItems(newItems);
+  };
+
+  const handleEditFormSubmit = (event) => {
+    event.preventDefault();
+
+    const editedItem = {
+      id: editItemId,
+      nome: editFormData.nome,
+      preco: parseFloat(editFormData.preco),
+      quantidade: parseInt(editFormData.quantidade, 10),
+    };
+
+    const newItems = [...items];
+    const index = items.findIndex((item) => item.id === editItemId);
+    newItems[index] = editedItem;
+    setItems(newItems);
+    setEditItemId(null);
+  };
+
+  const handleEditClick = (event, item) => {
+    event.preventDefault();
+    setEditItemId(item.id);
+
+    const formValues = {
+      nome: item.nome,
+      preco: item.preco,
+      quantidade: item.quantidade,
+    };
+
+    setEditFormData(formValues);
+  };
+
+  const handleCancelClick = () => {
+    setEditItemId(null);
   };
 
   return (
@@ -60,7 +119,7 @@ export default function Stock(): any {
         </span>
       </div>
       <div className="stock-table">
-        <form>
+        <form onSubmit={handleEditFormSubmit}>
           <ReactBootStrap.Table
             striped
             boardered
@@ -72,43 +131,68 @@ export default function Stock(): any {
                 <th scope="col">Nome</th>
                 <th scope="col">Preço (R$)</th>
                 <th scope="col">Quantidade</th>
+                <th scope="col">Ações</th>
               </tr>
             </thead>
             <tbody>
               {items.map((item) => (
+                // eslint-disable-next-line react/jsx-no-useless-fragment
                 <>
-                  <tr className="stock-table-striped-editable">
-                    <td>
-                      <input
-                        type="text"
-                        name="nome"
-                        required="required"
-                        placeholder="Insira um nome..."
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        step="0.01"
-                        name="preco"
-                        required="required"
-                        placeholder="Insira um preço..."
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="number"
-                        name="quantidade"
-                        required="required"
-                        placeholder="Insira uma quantidade..."
-                      />
-                    </td>
-                  </tr>
-                  <tr className="stock-table-striped-readOnly">
-                    <td>{item.nome}</td>
-                    <td>{item.preco.toFixed(2)}</td>
-                    <td>{item.quantidade}</td>
-                  </tr>
+                  {editItemId === item.id ? (
+                    <tr className="stock-table-striped-editable">
+                      <td>
+                        <input
+                          type="text"
+                          name="nome"
+                          required="required"
+                          placeholder="Insira um nome..."
+                          value={editFormData.nome}
+                          onChange={handleEditFormChange}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          step="0.01"
+                          name="preco"
+                          required="required"
+                          placeholder="Insira um preço..."
+                          value={editFormData.preco}
+                          onChange={handleEditFormChange}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          name="quantidade"
+                          required="required"
+                          placeholder="Insira uma quantidade..."
+                          value={editFormData.quantidade}
+                          onChange={handleEditFormChange}
+                        />
+                      </td>
+                      <td>
+                        <button type="submit">Atualizar</button>
+                        <button type="button" onClick={handleCancelClick}>
+                          Cancelar
+                        </button>
+                      </td>
+                    </tr>
+                  ) : (
+                    <tr className="stock-table-striped-readOnly">
+                      <td>{item.nome}</td>
+                      <td>{item.preco.toFixed(2)}</td>
+                      <td>{item.quantidade}</td>
+                      <td>
+                        <button
+                          type="button"
+                          onClick={(event) => handleEditClick(event, item)}
+                        >
+                          Editar
+                        </button>
+                      </td>
+                    </tr>
+                  )}
                 </>
               ))}
             </tbody>
