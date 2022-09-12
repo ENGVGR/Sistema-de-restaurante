@@ -120,6 +120,8 @@ export default function Stock(): any {
     setItems(newItems);
   };
 
+  const [query, setQuery] = useState('');
+
   return (
     <div className="stock">
       <MyNavBar />
@@ -127,6 +129,14 @@ export default function Stock(): any {
         <span className="stock-title__span" role={title}>
           Estoque
         </span>
+      </div>
+      <div>
+        <input
+          className="stock-search"
+          type="text"
+          placeholder="Buscar..."
+          onChange={(e) => setQuery(e.target.value)}
+        />
       </div>
       <div className="stock-table">
         <form onSubmit={handleEditFormSubmit}>
@@ -145,80 +155,82 @@ export default function Stock(): any {
               </tr>
             </thead>
             <tbody>
-              {items.map((item) => (
-                // eslint-disable-next-line react/jsx-no-useless-fragment
-                <>
-                  {editItemId === item.id ? (
-                    <tr className="stock-table-striped-editable">
-                      <td>
-                        <input
-                          type="text"
-                          name="nome"
-                          required="required"
-                          placeholder="Insira um nome..."
-                          value={editFormData.nome}
-                          onChange={handleEditFormChange}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          step="0.01"
-                          name="preco"
-                          required="required"
-                          placeholder="Insira um preço..."
-                          value={editFormData.preco}
-                          onChange={handleEditFormChange}
-                        />
-                      </td>
-                      <td>
-                        <input
-                          type="number"
-                          name="quantidade"
-                          required="required"
-                          placeholder="Insira uma quantidade..."
-                          value={editFormData.quantidade}
-                          onChange={handleEditFormChange}
-                        />
-                      </td>
-                      <td>
-                        <button className="stock-table-button" type="submit">
-                          Atualizar
-                        </button>
-                        <button
-                          className="stock-table-button"
-                          type="button"
-                          onClick={handleCancelClick}
-                        >
-                          Cancelar
-                        </button>
-                      </td>
-                    </tr>
-                  ) : (
-                    <tr className="stock-table-striped-readOnly">
-                      <td>{item.nome}</td>
-                      <td>{item.preco.toFixed(2)}</td>
-                      <td>{item.quantidade}</td>
-                      <td>
-                        <button
-                          className="stock-table-button"
-                          type="button"
-                          onClick={(event) => handleEditClick(event, item)}
-                        >
-                          Editar
-                        </button>
-                        <button
-                          className="stock-table-button"
-                          type="button"
-                          onClick={() => handleDeleteClick(item.id)}
-                        >
-                          Apagar
-                        </button>
-                      </td>
-                    </tr>
-                  )}
-                </>
-              ))}
+              {items
+                .filter((item) => item.nome.toLowerCase().includes(query))
+                .map((item) => (
+                  // eslint-disable-next-line react/jsx-no-useless-fragment
+                  <>
+                    {editItemId === item.id ? (
+                      <tr className="stock-table-striped-editable">
+                        <td>
+                          <input
+                            type="text"
+                            name="nome"
+                            required="required"
+                            placeholder="Insira um nome..."
+                            value={editFormData.nome}
+                            onChange={handleEditFormChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            step="0.01"
+                            name="preco"
+                            required="required"
+                            placeholder="Insira um preço..."
+                            value={editFormData.preco}
+                            onChange={handleEditFormChange}
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            name="quantidade"
+                            required="required"
+                            placeholder="Insira uma quantidade..."
+                            value={editFormData.quantidade}
+                            onChange={handleEditFormChange}
+                          />
+                        </td>
+                        <td>
+                          <button className="stock-table-button" type="submit">
+                            Atualizar
+                          </button>
+                          <button
+                            className="stock-table-button"
+                            type="button"
+                            onClick={handleCancelClick}
+                          >
+                            Cancelar
+                          </button>
+                        </td>
+                      </tr>
+                    ) : (
+                      <tr className="stock-table-striped-readOnly">
+                        <td>{item.nome}</td>
+                        <td>{item.preco.toFixed(2)}</td>
+                        <td>{item.quantidade}</td>
+                        <td>
+                          <button
+                            className="stock-table-button"
+                            type="button"
+                            onClick={(event) => handleEditClick(event, item)}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            className="stock-table-button"
+                            type="button"
+                            onClick={() => handleDeleteClick(item.id)}
+                          >
+                            Apagar
+                          </button>
+                        </td>
+                      </tr>
+                    )}
+                  </>
+                ))}
             </tbody>
           </ReactBootStrap.Table>
         </form>
