@@ -5,6 +5,9 @@ import * as ReactBootStrap from 'react-bootstrap';
 import MyNavBar from '../../components/navBar';
 
 const title = 'titleStock';
+const subtitle = 'subtitleStock';
+const collumName = 'collumNameStock';
+const buttonName = 'buttonNameStock';
 
 const data = [
   { id: 1, nome: 'Pão', preco: 2.0, quantidade: 5 },
@@ -146,7 +149,7 @@ export default function Stock(): any {
             hover
             className="stock-table-striped"
           >
-            <thead>
+            <thead role={collumName}>
               <tr>
                 <th scope="col">Nome</th>
                 <th scope="col">Preço (R$)</th>
@@ -235,7 +238,7 @@ export default function Stock(): any {
           </ReactBootStrap.Table>
         </form>
       </div>
-      <div className="stock-subtitle">
+      <div className="stock-subtitle" role={subtitle}>
         <span className="stock-subtitle__span">Adicionar novo item</span>
       </div>
       <div className="stock-form">
@@ -265,7 +268,7 @@ export default function Stock(): any {
             placeholder="Insira uma quantidade..."
             onChange={handleAddFormChange}
           />
-          <button className="stock-button" type="submit">
+          <button className="stock-button" type="submit" role={buttonName}>
             Adicionar
           </button>
         </form>
