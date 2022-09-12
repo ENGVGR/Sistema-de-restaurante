@@ -182,8 +182,14 @@ export default function Stock(): any {
                         />
                       </td>
                       <td>
-                        <button type="submit">Atualizar</button>
-                        <button type="button" onClick={handleCancelClick}>
+                        <button className="stock-table-button" type="submit">
+                          Atualizar
+                        </button>
+                        <button
+                          className="stock-table-button"
+                          type="button"
+                          onClick={handleCancelClick}
+                        >
                           Cancelar
                         </button>
                       </td>
@@ -195,12 +201,14 @@ export default function Stock(): any {
                       <td>{item.quantidade}</td>
                       <td>
                         <button
+                          className="stock-table-button"
                           type="button"
                           onClick={(event) => handleEditClick(event, item)}
                         >
                           Editar
                         </button>
                         <button
+                          className="stock-table-button"
                           type="button"
                           onClick={() => handleDeleteClick(item.id)}
                         >
@@ -221,6 +229,7 @@ export default function Stock(): any {
       <div className="stock-form">
         <form onSubmit={handleAddFormSubmit}>
           <input
+            className="stock-input"
             type="text"
             name="nome"
             required="required"
@@ -228,6 +237,7 @@ export default function Stock(): any {
             onChange={handleAddFormChange}
           />
           <input
+            className="stock-input"
             type="number"
             step="0.01"
             name="preco"
@@ -236,13 +246,16 @@ export default function Stock(): any {
             onChange={handleAddFormChange}
           />
           <input
+            className="stock-input"
             type="number"
             name="quantidade"
             required="required"
             placeholder="Insira uma quantidade..."
             onChange={handleAddFormChange}
           />
-          <button type="submit">Adicionar</button>
+          <button className="stock-button" type="submit">
+            Adicionar
+          </button>
         </form>
       </div>
     </div>
