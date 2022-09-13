@@ -4,19 +4,20 @@ import './index.scss';
 import * as ReactBootStrap from 'react-bootstrap';
 import MyNavBar from '../../components/navBar';
 
+// Para Testes
 const title = 'titleStock';
 const subtitle = 'subtitleStock';
 const collumName = 'collumNameStock';
 const buttonName = 'buttonNameStock';
 
-const data = [
-  { id: 1, nome: 'Pão', preco: 2.0, quantidade: 5 },
-  { id: 2, nome: 'Batata', preco: 3.0, quantidade: 15 },
-  { id: 3, nome: 'Queijo', preco: 2.5, quantidade: 10 },
-  { id: 4, nome: 'Tomate', preco: 1.5, quantidade: 20 },
-];
+// Nome das colunas da tabela
+const columm1Name = 'Nome';
+const columm2Name = 'Preço (R$)';
+const columm3Name = 'Quantidade';
+const columm4Name = 'Ações';
 
-let newId = 5;
+const data = [];
+let newId = 1;
 
 /**
  * @function Stock
@@ -133,13 +134,54 @@ export default function Stock(): any {
           Estoque
         </span>
       </div>
-      <div>
-        <input
-          className="stock-search"
-          type="text"
-          placeholder="Buscar..."
-          onChange={(e) => setQuery(e.target.value)}
-        />
+      <div className="stock-subtitle" role={subtitle}>
+        <span className="stock-subtitle__span">Adicionar novo item</span>
+      </div>
+      <div className="stock-preface">
+        <div className="stock-preface-search">
+          <input
+            className="stock-preface-search-input"
+            type="text"
+            placeholder="Buscar..."
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </div>
+        <div className="stock-preface-form">
+          <form onSubmit={handleAddFormSubmit}>
+            <input
+              className="stock-input"
+              type="text"
+              name="nome"
+              required="required"
+              placeholder="Insira um nome..."
+              onChange={handleAddFormChange}
+            />
+            <input
+              className="stock-input"
+              type="number"
+              step="0.01"
+              name="preco"
+              required="required"
+              placeholder="Insira um preço..."
+              onChange={handleAddFormChange}
+            />
+            <input
+              className="stock-input"
+              type="number"
+              name="quantidade"
+              required="required"
+              placeholder="Insira uma quantidade..."
+              onChange={handleAddFormChange}
+            />
+            <button
+              className="stock-preface-search-button"
+              type="submit"
+              role={buttonName}
+            >
+              Adicionar
+            </button>
+          </form>
+        </div>
       </div>
       <div className="stock-table">
         <form onSubmit={handleEditFormSubmit}>
@@ -151,10 +193,10 @@ export default function Stock(): any {
           >
             <thead role={collumName}>
               <tr>
-                <th scope="col">Nome</th>
-                <th scope="col">Preço (R$)</th>
-                <th scope="col">Quantidade</th>
-                <th scope="col">Ações</th>
+                <th scope="col">{columm1Name}</th>
+                <th scope="col">{columm2Name}</th>
+                <th scope="col">{columm3Name}</th>
+                <th scope="col">{columm4Name}</th>
               </tr>
             </thead>
             <tbody>
@@ -236,41 +278,6 @@ export default function Stock(): any {
                 ))}
             </tbody>
           </ReactBootStrap.Table>
-        </form>
-      </div>
-      <div className="stock-subtitle" role={subtitle}>
-        <span className="stock-subtitle__span">Adicionar novo item</span>
-      </div>
-      <div className="stock-form">
-        <form onSubmit={handleAddFormSubmit}>
-          <input
-            className="stock-input"
-            type="text"
-            name="nome"
-            required="required"
-            placeholder="Insira um nome..."
-            onChange={handleAddFormChange}
-          />
-          <input
-            className="stock-input"
-            type="number"
-            step="0.01"
-            name="preco"
-            required="required"
-            placeholder="Insira um preço..."
-            onChange={handleAddFormChange}
-          />
-          <input
-            className="stock-input"
-            type="number"
-            name="quantidade"
-            required="required"
-            placeholder="Insira uma quantidade..."
-            onChange={handleAddFormChange}
-          />
-          <button className="stock-button" type="submit" role={buttonName}>
-            Adicionar
-          </button>
         </form>
       </div>
     </div>
