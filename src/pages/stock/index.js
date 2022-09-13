@@ -21,7 +21,11 @@ let newId = 1;
 
 /**
  * @function Stock
- * @description Tela do estoque
+ * @description Tela do estoque.
+ *  Possui as funcionalidades de:
+ *  - Adicionar novas linhas a partir de um formulário e um botão;
+ *  - Editar linhas já existentes a partir de uma coluna de ações;
+ *  - Filtrar os resultados com um bloco de texto
  * @return {html} Retorna a tela do estoque.
  */
 export default function Stock(): any {
