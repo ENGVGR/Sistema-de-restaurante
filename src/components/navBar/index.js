@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // @flow
 import React from 'react';
 import './index.scss';
