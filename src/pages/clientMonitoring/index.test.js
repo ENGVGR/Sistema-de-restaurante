@@ -11,12 +11,12 @@ it('render Monitor', () => {
 
   expect(screen.getByRole('titleMonitor')).toHaveTextContent('Acompanhamento de Clientes');
   expect(screen.getByRole('subtitleMonitor')).toHaveTextContent(
-    'Adicionar novo item'
+    'Adicionar novo cliente'
   );
-//   expect(screen.getByRole('collumNameMonitor')).toHaveTextContent(
-//     'Cliente',
-//     'Mesa',
-//     'Status'
-//   );
+  expect(screen.getByRole('collumNameMonitor')).toHaveTextContent(
+    'Cliente',
+    'Mesa',
+    'Status'
+  );
 //   expect(screen.getByRole('buttonNameMonitor')).toHaveTextContent('Adicionar');
 });

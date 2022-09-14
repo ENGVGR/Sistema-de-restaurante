@@ -140,7 +140,7 @@ export default function Monitor(): any {
         </span>
       </div>
       <div className="monitor-subtitle" role={subtitle}>
-        <span className="monitor-subtitle__span">Adicionar novo item</span>
+        <span className="monitor-subtitle__span">Adicionar novo cliente</span>
       </div>
       <div className="monitor-preface">
         <div className="monitor-preface-search">
