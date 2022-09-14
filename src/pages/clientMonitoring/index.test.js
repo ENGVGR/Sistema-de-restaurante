@@ -18,5 +18,5 @@ it('render Monitor', () => {
     'Mesa',
     'Status'
   );
-//   expect(screen.getByRole('buttonNameMonitor')).toHaveTextContent('Adicionar');
+  expect(screen.getByRole('buttonNameMonitor')).toHaveTextContent('Adicionar');
 });
