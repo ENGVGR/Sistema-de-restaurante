@@ -10,9 +10,9 @@ it('render Monitor', () => {
   render(<Monitor />);
 
   expect(screen.getByRole('titleMonitor')).toHaveTextContent('Acompanhamento de Clientes');
-//   expect(screen.getByRole('subtitleMonitor')).toHaveTextContent(
-//     'Adicionar novo item'
-//   );
+  expect(screen.getByRole('subtitleMonitor')).toHaveTextContent(
+    'Adicionar novo item'
+  );
 //   expect(screen.getByRole('collumNameMonitor')).toHaveTextContent(
 //     'Cliente',
 //     'Mesa',
