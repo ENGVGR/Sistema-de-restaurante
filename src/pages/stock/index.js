@@ -45,6 +45,13 @@ export default function Stock(): any {
 
   const [editItemId, setEditItemId] = useState(null);
 
+  const [query, setQuery] = useState('');
+
+  /**
+   * @function handleAddFormChange
+   * @description Recebe no formulário de adição de linha nova
+   * as informações digitadas.
+   */
   const handleAddFormChange = (event) => {
     event.preventDefault();
 
@@ -57,6 +64,11 @@ export default function Stock(): any {
     setAddFormData(newFormData);
   };
 
+  /**
+   * @function handleEditFormChange
+   * @description Recebe no formulário de edição de linha da tabela existente
+   * as informações digitadas.
+   */
   const handleEditFormChange = (event) => {
     event.preventDefault();
 
@@ -69,6 +81,11 @@ export default function Stock(): any {
     setEditFormData(newFormData);
   };
 
+  /**
+   * @function handleAddFormSubmit
+   * @description Recebe um comando de adição de nova linha da tabela
+   * e adiciona as informações informadas à tabela.
+   */
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
@@ -84,6 +101,11 @@ export default function Stock(): any {
     setItems(newItems);
   };
 
+  /**
+   * @function handleEditFormSubmit
+   * @description Recebe um comando de confirmação de edição de linha da tabela existente
+   * e sobreescreve a linha da tabela com as informações informadas.
+   */
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
 
@@ -101,6 +123,11 @@ export default function Stock(): any {
     setEditItemId(null);
   };
 
+  /**
+   * @function handleEditClick
+   * @description Recebe um comando de edição de linha da tabela existente
+   * e modifica a linha da tabela para receber um formulário.
+   */
   const handleEditClick = (event, item) => {
     event.preventDefault();
     setEditItemId(item.id);
@@ -114,10 +141,18 @@ export default function Stock(): any {
     setEditFormData(formValues);
   };
 
+  /**
+   * @function handleCancelClick
+   * @description Recebe um comando para cancelar a edição de linha da tabela existente.
+   */
   const handleCancelClick = () => {
     setEditItemId(null);
   };
 
+  /**
+   * @function handleDeleteClick
+   * @description Recebe um comando para apagar uma linha da tabela existente.
+   */
   const handleDeleteClick = (itemId) => {
     const newItems = [...items];
 
@@ -127,8 +162,6 @@ export default function Stock(): any {
 
     setItems(newItems);
   };
-
-  const [query, setQuery] = useState('');
 
   return (
     <div className="stock">
