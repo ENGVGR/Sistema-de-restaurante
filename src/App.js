@@ -1,16 +1,8 @@
 import React from 'react';
-import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import LoginPage from './pages/LoginPage';
+import LoginPage from './pages/loginPage';
 
 function App() {
-  return (
-    <div>
-      <Routes>
-        <Route element={<LoginPage />} path="/login" />
-      </Routes>
-    </div>
-  );
+  return <LoginPage />;
 }
 
 export default App;
