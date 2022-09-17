@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import Menu from './pages/menu';
+import Monitor from './pages/clientMonitoring';
 
 function App() {
-  return <Menu />;
+  return <Monitor />;
 }
 
 export default App;
