@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 // @flow
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';

@@ -1,5 +1,3 @@
-/* eslint-disable prettier/prettier */
-
 // @flow
 import React, { Fragment, useState } from 'react';
 import './index.scss';
@@ -46,7 +44,7 @@ export default function Monitor(): any {
 
   const [editItemId, setEditItemId] = useState(null);
 
-   /**
+  /**
    * @function handleAddFormChange
    * @description Recebe no formulário de adição de linha nova
    * as informações digitadas.
@@ -80,7 +78,7 @@ export default function Monitor(): any {
     setEditFormData(newFormData);
   };
 
-   /**
+  /**
    * @function handleAddFormSubmit
    * @description Recebe um comando de adição de nova linha da tabela
    * e adiciona as informações informadas à tabela.
@@ -140,7 +138,7 @@ export default function Monitor(): any {
     setEditFormData(formValues);
   };
 
-   /**
+  /**
    * @function handleCancelClick
    * @description Recebe um comando para cancelar a edição de linha da tabela existente.
    */
@@ -148,7 +146,7 @@ export default function Monitor(): any {
     setEditItemId(null);
   };
 
-   /**
+  /**
    * @function handleDeleteClick
    * @description Recebe um comando para apagar uma linha da tabela existente.
    */
@@ -274,7 +272,10 @@ export default function Monitor(): any {
                           />
                         </td>
                         <td>
-                          <button className="monitor-table-button" type="submit">
+                          <button
+                            className="monitor-table-button"
+                            type="submit"
+                          >
                             Atualizar
                           </button>
                           <button

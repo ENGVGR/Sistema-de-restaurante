@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
 import Monitor from './index';
@@ -9,7 +8,9 @@ afterEach(cleanup);
 it('render Monitor', () => {
   render(<Monitor />);
 
-  expect(screen.getByRole('titleMonitor')).toHaveTextContent('Acompanhamento de Clientes');
+  expect(screen.getByRole('titleMonitor')).toHaveTextContent(
+    'Acompanhamento de Clientes'
+  );
   expect(screen.getByRole('subtitleMonitor')).toHaveTextContent(
     'Adicionar novo cliente'
   );
