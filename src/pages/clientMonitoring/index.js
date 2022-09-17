@@ -46,6 +46,11 @@ export default function Monitor(): any {
 
   const [editItemId, setEditItemId] = useState(null);
 
+   /**
+   * @function handleAddFormChange
+   * @description Recebe no formulário de adição de linha nova
+   * as informações digitadas.
+   */
   const handleAddFormChange = (event) => {
     event.preventDefault();
 
@@ -58,6 +63,11 @@ export default function Monitor(): any {
     setAddFormData(newFormData);
   };
 
+  /**
+   * @function handleEditFormChange
+   * @description Recebe no formulário de edição de linha da tabela existente
+   * as informações digitadas.
+   */
   const handleEditFormChange = (event) => {
     event.preventDefault();
 
@@ -70,6 +80,11 @@ export default function Monitor(): any {
     setEditFormData(newFormData);
   };
 
+   /**
+   * @function handleAddFormSubmit
+   * @description Recebe um comando de adição de nova linha da tabela
+   * e adiciona as informações informadas à tabela.
+   */
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
@@ -85,6 +100,11 @@ export default function Monitor(): any {
     setItems(newItems);
   };
 
+  /**
+   * @function handleEditFormSubmit
+   * @description Recebe um comando de confirmação de edição de linha da tabela existente
+   * e sobreescreve a linha da tabela com as informações informadas.
+   */
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
 
@@ -102,6 +122,11 @@ export default function Monitor(): any {
     setEditItemId(null);
   };
 
+  /**
+   * @function handleEditClick
+   * @description Recebe um comando de edição de linha da tabela existente
+   * e modifica a linha da tabela para receber um formulário.
+   */
   const handleEditClick = (event, item) => {
     event.preventDefault();
     setEditItemId(item.id);
@@ -115,10 +140,18 @@ export default function Monitor(): any {
     setEditFormData(formValues);
   };
 
+   /**
+   * @function handleCancelClick
+   * @description Recebe um comando para cancelar a edição de linha da tabela existente.
+   */
   const handleCancelClick = () => {
     setEditItemId(null);
   };
 
+   /**
+   * @function handleDeleteClick
+   * @description Recebe um comando para apagar uma linha da tabela existente.
+   */
   const handleDeleteClick = (itemId) => {
     const newItems = [...items];
 
