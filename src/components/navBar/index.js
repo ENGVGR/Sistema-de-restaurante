@@ -88,7 +88,6 @@ export default function MyNavBar(): any {
             as={Link}
             to="/"
           >
-            Cardápio
           </Nav.Link>
         </Nav>
       </Container>

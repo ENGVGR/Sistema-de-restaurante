@@ -1,53 +1,47 @@
 // @flow
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './index.scss';
 import * as ReactBootStrap from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
 import MyNavBar from '../../components/navBar';
 import restaurantApi from '../../api';
-import UserContext from '../../context/user.context';
 
 // Para Testes
-const title = 'titleStock';
-const subtitle = 'subtitleStock';
-const collumName = 'collumNameStock';
-const buttonName = 'buttonNameStock';
+const title = 'titleEmployee';
+const subtitle = 'subtitleEmployee';
+const collumName = 'collumNameEmployee';
+const buttonName = 'buttonNameEmployee';
 
 // Nome das colunas da tabela
 const columm1Name = 'Nome';
-const columm2Name = 'Preço (R$)';
-const columm3Name = 'Descrição';
+const columm2Name = 'Email';
+const columm3Name = 'Cargo';
 const columm4Name = 'Ações';
 
 const data = [];
 
 /**
- * @function Stock
- * @description Tela do estoque.
+ * @function EmployeeMonitoring
+ * @description Tela de monitoramento dos funcionários.
  *  Possui as funcionalidades de:
  *  - Adicionar novas linhas a partir de um formulário e um botão;
  *  - Editar linhas já existentes a partir de uma coluna de ações;
  *  - Filtrar os resultados com um bloco de texto
- * @return {html} Retorna a tela do estoque.
+ * @return {html} Retorna a tela de monitoramento dos funcionários.
  */
-export default function Stock(): any {
+export default function EmployeeMonitoring(): any {
   const [itens, setItens] = useState(data);
   const [newChange, setNewChange] = useState(data);
-  const { user } = useContext(UserContext);
-  const navigate = useNavigate();
-
-  if (!user) navigate('/');
 
   const [addFormData, setAddFormData] = useState({
     title: '',
-    price: '',
-    description: '',
+    email: '',
+    role: '',
   });
 
   const [editFormData, setEditFormData] = useState({
     title: '',
-    price: '',
-    description: '',
+    email: '',
+    role: '',
   });
 
   const [editItemId, setEditItemId] = useState(null);
@@ -101,8 +95,8 @@ export default function Stock(): any {
 
     const newItem = {
       title: addFormData.title,
-      price: addFormData.price,
-      description: addFormData.description,
+      email: addFormData.email,
+      role: addFormData.role,
       menus_id: 1,
       users_id: 1,
     };
@@ -129,8 +123,8 @@ export default function Stock(): any {
 
     const editedItem = {
       title: editFormData.title,
-      price: editFormData.price,
-      description: editFormData.description,
+      email: editFormData.email,
+      role: editFormData.role,
     };
 
     const newItens = [...itens];
@@ -153,8 +147,8 @@ export default function Stock(): any {
 
     const formValues = {
       title: item.title,
-      price: item.price,
-      description: item.description,
+      email: item.email,
+      role: item.role,
     };
 
     setEditFormData(formValues);
@@ -192,8 +186,8 @@ export default function Stock(): any {
   const handleEdit = (itemId: number) => {
     const newItem = {
       title: editFormData.title,
-      price: editFormData.price,
-      description: editFormData.description,
+      email: editFormData.email,
+      role: editFormData.role,
     };
 
     restaurantApi
@@ -218,29 +212,29 @@ export default function Stock(): any {
   }, [newChange]);
 
   return (
-    <div className="stock">
+    <div className="employee">
       <MyNavBar />
-      <div className="stock-title">
-        <span className="stock-title__span" role={title}>
-          Estoque
+      <div className="employee-title">
+        <span className="employee-title__span" role={title}>
+          Funcionários
         </span>
       </div>
-      <div className="stock-subtitle" role={subtitle}>
-        <span className="stock-subtitle__span">Adicionar novo item</span>
+      <div className="employee-subtitle" role={subtitle}>
+        <span className="employee-subtitle__span">Adicionar novo item</span>
       </div>
-      <div className="stock-preface">
-        <div className="stock-preface-search">
+      <div className="employee-preface">
+        <div className="employee-preface-search">
           <input
-            className="stock-preface-search-input"
+            className="employee-preface-search-input"
             type="text"
             placeholder="Buscar..."
             onChange={(e) => setQuery(e.target.value)}
           />
         </div>
-        <div className="stock-preface-form">
+        <div className="employee-preface-form">
           <form onSubmit={handleAddFormSubmit}>
             <input
-              className="stock-input"
+              className="employee-input"
               type="text"
               name="title"
               required="required"
@@ -248,24 +242,23 @@ export default function Stock(): any {
               onChange={handleAddFormChange}
             />
             <input
-              className="stock-input"
-              type="number"
-              step="0.01"
-              name="price"
+              className="employee-input"
+              type="email"
+              name="email"
               required="required"
-              placeholder="Insira um preço..."
+              placeholder="Insira um email..."
               onChange={handleAddFormChange}
             />
             <input
-              className="stock-input"
+              className="employee-input"
               type="text"
-              name="description"
+              name="role"
               required="required"
-              placeholder="Insira uma descrição..."
+              placeholder="Insira um cargo..."
               onChange={handleAddFormChange}
             />
             <button
-              className="stock-preface-search-button"
+              className="employee-preface-search-button"
               type="submit"
               role={buttonName}
             >
@@ -274,13 +267,13 @@ export default function Stock(): any {
           </form>
         </div>
       </div>
-      <div className="stock-table">
+      <div className="employee-table">
         <form onSubmit={handleEditFormSubmit}>
           <ReactBootStrap.Table
             striped
             boardered
             hover
-            className="stock-table-striped"
+            className="employee-table-striped"
           >
             <thead role={collumName}>
               <tr>
@@ -297,7 +290,7 @@ export default function Stock(): any {
                   // eslint-disable-next-line react/jsx-no-useless-fragment
                   <>
                     {editItemId === item.id ? (
-                      <tr className="stock-table-striped-editable">
+                      <tr className="employee-table-striped-editable">
                         <td>
                           <input
                             type="text"
@@ -310,35 +303,34 @@ export default function Stock(): any {
                         </td>
                         <td>
                           <input
-                            type="number"
-                            step="0.01"
-                            name="price"
+                            type="email"
+                            name="email"
                             required="required"
-                            placeholder="Insira um preço..."
-                            value={editFormData.price}
+                            placeholder="Insira um email..."
+                            value={editFormData.email}
                             onChange={handleEditFormChange}
                           />
                         </td>
                         <td>
                           <input
                             type="text"
-                            name="description"
+                            name="role"
                             required="required"
-                            placeholder="Insira uma descrição..."
-                            value={editFormData.description}
+                            placeholder="Insira um cargo..."
+                            value={editFormData.role}
                             onChange={handleEditFormChange}
                           />
                         </td>
                         <td>
                           <button
-                            className="stock-table-button"
+                            className="employee-table-button"
                             type="submit"
                             onClick={() => handleEdit(item.id)}
                           >
                             Atualizar
                           </button>
                           <button
-                            className="stock-table-button"
+                            className="employee-table-button"
                             type="button"
                             onClick={handleCancelClick}
                           >
@@ -347,20 +339,20 @@ export default function Stock(): any {
                         </td>
                       </tr>
                     ) : (
-                      <tr className="stock-table-striped-readOnly">
+                      <tr className="employee-table-striped-readOnly">
                         <td>{item.title}</td>
-                        <td>{item.price}</td>
-                        <td className="description">{item.description}</td>
+                        <td>{item.email}</td>
+                        <td>{item.role}</td>
                         <td>
                           <button
-                            className="stock-table-button"
+                            className="employee-table-button"
                             type="button"
                             onClick={(event) => handleEditClick(event, item)}
                           >
                             Editar
                           </button>
                           <button
-                            className="stock-table-button"
+                            className="employee-table-button"
                             type="button"
                             onClick={() => handleDeleteClick(item.id)}
                           >
