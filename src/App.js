@@ -1,9 +1,8 @@
 import React from 'react';
-import './App.css';
-import Monitor from './pages/clientMonitoring';
+import LoginPage from './pages/loginPage';
 
 function App() {
-  return <Monitor />;
+  return <LoginPage />;
 }
 
 export default App;
