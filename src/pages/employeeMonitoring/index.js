@@ -1,9 +1,11 @@
 // @flow
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import './index.scss';
 import * as ReactBootStrap from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import MyNavBar from '../../components/navBar';
 import restaurantApi from '../../api';
+import UserContext from '../../context/user.context';
 
 // Para Testes
 const title = 'titleEmployee';
@@ -29,17 +31,21 @@ const data = [];
  * @return {html} Retorna a tela de monitoramento dos funcionários.
  */
 export default function EmployeeMonitoring(): any {
-  const [itens, setItens] = useState(data);
+  const [users, setUsers] = useState(data);
   const [newChange, setNewChange] = useState(data);
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  if (user && user.role !== 'Admin') navigate('/');
 
   const [addFormData, setAddFormData] = useState({
-    title: '',
+    name: '',
     email: '',
     role: '',
   });
 
   const [editFormData, setEditFormData] = useState({
-    title: '',
+    name: '',
     email: '',
     role: '',
   });
@@ -93,19 +99,18 @@ export default function EmployeeMonitoring(): any {
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
-    const newItem = {
-      title: addFormData.title,
+    const newUser = {
+      name: addFormData.name,
       email: addFormData.email,
       role: addFormData.role,
-      menus_id: 1,
-      users_id: 1,
+      password: addFormData.password,
     };
 
     restaurantApi
-      .post(`/item/create`, newItem)
+      .post(`/users/create`, newUser)
       .then((response) => {
         console.log(response);
-        setNewChange(newItem);
+        setNewChange(newUser);
       })
       .catch((e) => {
         console.log(e);
@@ -122,15 +127,15 @@ export default function EmployeeMonitoring(): any {
     event.preventDefault();
 
     const editedItem = {
-      title: editFormData.title,
+      name: editFormData.name,
       email: editFormData.email,
       role: editFormData.role,
     };
 
-    const newItens = [...itens];
-    const index = itens.findIndex((item) => item.id === editItemId);
+    const newItens = [...users];
+    const index = users.findIndex((item) => item.id === editItemId);
     newItens[index] = editedItem;
-    setItens(newItens);
+    setUsers(newItens);
     setEditItemId(null);
   };
 
@@ -146,7 +151,7 @@ export default function EmployeeMonitoring(): any {
     setEditItemId(item.id);
 
     const formValues = {
-      title: item.title,
+      name: item.name,
       email: item.email,
       role: item.role,
     };
@@ -165,11 +170,11 @@ export default function EmployeeMonitoring(): any {
   /**
    * @function handleDeleteClick
    * @description Recebe um comando para apagar uma linha da tabela existente.
-   * @param {number} itemId - Id do item que será apoagado.
+   * @param {number} userId - Id do usuário que será apoagado.
    */
-  const handleDeleteClick = (itemId) => {
+  const handleDeleteClick = (userId) => {
     restaurantApi
-      .delete(`/item/delete/${itemId}`)
+      .delete(`/users/delete/${userId}`)
       .then((response) => {
         setNewChange(response);
       })
@@ -180,18 +185,18 @@ export default function EmployeeMonitoring(): any {
 
   /**
    * @function handleEdit
-   * @description Altera as informações do item selecionado.
-   * @param {number} itemId - Id do item que será editado.
+   * @description Altera as informações do usuário selecionado.
+   * @param {number} userId - Id do usuário que será editado.
    */
-  const handleEdit = (itemId: number) => {
-    const newItem = {
-      title: editFormData.title,
+  const handleEdit = (userId: number) => {
+    const newUser = {
+      name: editFormData.name,
       email: editFormData.email,
       role: editFormData.role,
     };
 
     restaurantApi
-      .patch(`/item/update/${itemId}`, newItem)
+      .patch(`/users/update/${userId}`, newUser)
       .then((response) => {
         setNewChange(response);
       })
@@ -202,9 +207,9 @@ export default function EmployeeMonitoring(): any {
 
   useEffect(() => {
     restaurantApi
-      .get(`/item/get`)
+      .get(`/users/get`)
       .then((response) => {
-        setItens(response.data);
+        setUsers(response.data);
       })
       .catch((e) => {
         console.log(e);
@@ -236,7 +241,7 @@ export default function EmployeeMonitoring(): any {
             <input
               className="employee-input"
               type="text"
-              name="title"
+              name="name"
               required="required"
               placeholder="Insira um nome..."
               onChange={handleAddFormChange}
@@ -247,6 +252,14 @@ export default function EmployeeMonitoring(): any {
               name="email"
               required="required"
               placeholder="Insira um email..."
+              onChange={handleAddFormChange}
+            />
+            <input
+              className="employee-input"
+              type="password"
+              name="password"
+              required="required"
+              placeholder="Insira uma senha..."
               onChange={handleAddFormChange}
             />
             <input
@@ -284,8 +297,8 @@ export default function EmployeeMonitoring(): any {
               </tr>
             </thead>
             <tbody>
-              {itens
-                .filter((item) => item.title.toLowerCase().includes(query))
+              {users
+                .filter((item) => item.name.toLowerCase().includes(query))
                 .map((item) => (
                   // eslint-disable-next-line react/jsx-no-useless-fragment
                   <>
@@ -294,10 +307,10 @@ export default function EmployeeMonitoring(): any {
                         <td>
                           <input
                             type="text"
-                            name="title"
+                            name="name"
                             required="required"
                             placeholder="Insira um nome..."
-                            value={editFormData.title}
+                            value={editFormData.name}
                             onChange={handleEditFormChange}
                           />
                         </td>
@@ -340,7 +353,7 @@ export default function EmployeeMonitoring(): any {
                       </tr>
                     ) : (
                       <tr className="employee-table-striped-readOnly">
-                        <td>{item.title}</td>
+                        <td>{item.name}</td>
                         <td>{item.email}</td>
                         <td>{item.role}</td>
                         <td>

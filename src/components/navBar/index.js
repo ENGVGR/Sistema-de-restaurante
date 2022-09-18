@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 // @flow
 import React, { useContext } from 'react';
 import './index.scss';
@@ -35,25 +36,22 @@ export default function MyNavBar(): any {
           X Burger
         </Navbar.Text>
         <Nav className="me-auto">
+          <Nav.Link
+            style={{ color: '#ebeaa9' }}
+            role={cardapio}
+            as={Link}
+            to="/"
+          >
+            Cardápio
+          </Nav.Link>
           {user ? (
             <>
-              <Nav.Link
-                style={{ color: '#ebeaa9' }}
-                role={login}
-                as={Link}
-                to="/login"
-                onClick={() => {
-                  setUser();
-                }}
-              >
-                Logout
-              </Nav.Link>
               <Nav.Link style={{ color: '#ebeaa9' }} role={pedidos}>
                 Pedidos
               </Nav.Link>
               <Nav.Link
                 style={{ color: '#ebeaa9' }}
-                role={cardapio}
+                role={clientes}
                 as={Link}
                 to="/clientMonitoring"
               >
@@ -66,9 +64,6 @@ export default function MyNavBar(): any {
                 to="/stock"
               >
                 Estoque
-              </Nav.Link>
-              <Nav.Link style={{ color: '#ebeaa9' }} role={garcons}>
-                Garçons
               </Nav.Link>
             </>
           ) : (
@@ -87,8 +82,34 @@ export default function MyNavBar(): any {
             role={clientes}
             as={Link}
             to="/"
-          >
-          </Nav.Link>
+          />
+          {user && user.role !== 'Admin' ? (
+            <></>
+          ) : (
+            <Nav.Link
+              style={{ color: '#ebeaa9' }}
+              role={garcons}
+              as={Link}
+              to="/employeeMonitoring"
+            >
+              Funcionários
+            </Nav.Link>
+          )}
+          {user ? (
+            <Nav.Link
+              style={{ color: '#ebeaa9' }}
+              role={login}
+              as={Link}
+              to="/login"
+              onClick={() => {
+                setUser();
+              }}
+            >
+              Logout
+            </Nav.Link>
+          ) : (
+            <></>
+          )}
         </Nav>
       </Container>
     </Navbar>
