@@ -1,9 +1,11 @@
 // @flow
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import './index.scss';
 import * as ReactBootStrap from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import MyNavBar from '../../components/navBar';
 import restaurantApi from '../../api';
+import UserContext from '../../context/user.context';
 
 // Para Testes
 const title = 'titleStock';
@@ -31,6 +33,10 @@ const data = [];
 export default function Stock(): any {
   const [itens, setItens] = useState(data);
   const [newChange, setNewChange] = useState(data);
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  if (!user) navigate('/');
 
   const [addFormData, setAddFormData] = useState({
     title: '',
