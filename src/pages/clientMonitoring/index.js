@@ -31,7 +31,7 @@ const data = [];
  */
 export default function Monitor(): any {
   const [itens, setItens] = useState(data);
-  const [newCange, setNewCange] = useState();
+  const [newChange, setNewChange] = useState();
 
   const [addFormData, setAddFormData] = useState({
     id: '',
@@ -96,7 +96,7 @@ export default function Monitor(): any {
     restaurantApi
       .post(`/costumer/create`, newTable)
       .then(() => {
-        setNewCange(newTable);
+        setNewChange(newTable);
       })
       .catch((e) => {
         console.log(e);
@@ -156,7 +156,7 @@ export default function Monitor(): any {
     restaurantApi
       .delete(`/costumer/delete/${itemId}`)
       .then((response) => {
-        setNewCange(response);
+        setNewChange(response);
       })
       .catch((e) => {
         console.log(e);
@@ -176,7 +176,7 @@ export default function Monitor(): any {
     restaurantApi
       .patch(`/costumer/update/${costumerId}`, newTable)
       .then((response) => {
-        setNewCange(response);
+        setNewChange(response);
       })
       .catch((e) => {
         console.log(e);
@@ -205,7 +205,7 @@ export default function Monitor(): any {
               .patch(`/order/update/${user.id}`, newStatus)
               .then((response2) => {
                 console.log(stat);
-                setNewCange(response2);
+                setNewChange(response2);
               })
               .catch((e) => {
                 console.log(e);
@@ -218,7 +218,7 @@ export default function Monitor(): any {
       });
   };
 
-  /* const [query, setQuery] = useState(''); */
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     restaurantApi
@@ -246,7 +246,7 @@ export default function Monitor(): any {
       .catch((e) => {
         console.log(e);
       });
-  }, [itens, newCange]);
+  }, [newChange]);
 
   return (
     <div className="monitor">
@@ -265,7 +265,7 @@ export default function Monitor(): any {
             className="monitor-preface-search-input"
             type="text"
             placeholder="Buscar..."
-            /* onChange={(e) => setQuery(e.target.value)} */
+            onChange={(e) => setQuery(e.target.value)}
           />
         </div>
         <div className="monitor-preface-form">
@@ -305,7 +305,9 @@ export default function Monitor(): any {
             </thead>
             <tbody>
               {itens
-                /* .filter((item) => item.id.includes(query)) */
+                .filter((item) =>
+                  item.table.toString().toLowerCase().includes(query)
+                )
                 .map((item) => (
                   // eslint-disable-next-line react/jsx-no-useless-fragment
                   <>
@@ -314,7 +316,7 @@ export default function Monitor(): any {
                         <td>
                           <input
                             readOnly
-                            name="table"
+                            name="id"
                             required="required"
                             placeholder="Id"
                             value={item.id}

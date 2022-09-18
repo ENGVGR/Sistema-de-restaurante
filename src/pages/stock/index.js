@@ -1,8 +1,9 @@
 // @flow
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './index.scss';
 import * as ReactBootStrap from 'react-bootstrap';
 import MyNavBar from '../../components/navBar';
+import restaurantApi from '../../api';
 
 // Para Testes
 const title = 'titleStock';
@@ -13,11 +14,10 @@ const buttonName = 'buttonNameStock';
 // Nome das colunas da tabela
 const columm1Name = 'Nome';
 const columm2Name = 'Preço (R$)';
-const columm3Name = 'Quantidade';
+const columm3Name = 'Descrição';
 const columm4Name = 'Ações';
 
 const data = [];
-let newId = 1;
 
 /**
  * @function Stock
@@ -29,18 +29,19 @@ let newId = 1;
  * @return {html} Retorna a tela do estoque.
  */
 export default function Stock(): any {
-  const [items, setItems] = useState(data);
+  const [itens, setItens] = useState(data);
+  const [newChange, setNewChange] = useState(data);
 
   const [addFormData, setAddFormData] = useState({
-    nome: '',
-    preco: '',
-    quantidade: '',
+    title: '',
+    price: '',
+    description: '',
   });
 
   const [editFormData, setEditFormData] = useState({
-    nome: '',
-    preco: '',
-    quantidade: '',
+    title: '',
+    price: '',
+    description: '',
   });
 
   const [editItemId, setEditItemId] = useState(null);
@@ -90,15 +91,22 @@ export default function Stock(): any {
     event.preventDefault();
 
     const newItem = {
-      id: newId,
-      nome: addFormData.nome,
-      preco: parseFloat(addFormData.preco),
-      quantidade: parseInt(addFormData.quantidade, 10),
+      title: addFormData.title,
+      price: addFormData.price,
+      description: addFormData.description,
+      menus_id: 1,
+      users_id: 1,
     };
-    newId += 1;
 
-    const newItems = [...items, newItem];
-    setItems(newItems);
+    restaurantApi
+      .post(`/item/create`, newItem)
+      .then((response) => {
+        console.log(response);
+        setNewChange(newItem);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   /**
@@ -110,16 +118,15 @@ export default function Stock(): any {
     event.preventDefault();
 
     const editedItem = {
-      id: editItemId,
-      nome: editFormData.nome,
-      preco: parseFloat(editFormData.preco),
-      quantidade: parseInt(editFormData.quantidade, 10),
+      title: editFormData.title,
+      price: editFormData.price,
+      description: editFormData.description,
     };
 
-    const newItems = [...items];
-    const index = items.findIndex((item) => item.id === editItemId);
-    newItems[index] = editedItem;
-    setItems(newItems);
+    const newItens = [...itens];
+    const index = itens.findIndex((item) => item.id === editItemId);
+    newItens[index] = editedItem;
+    setItens(newItens);
     setEditItemId(null);
   };
 
@@ -133,9 +140,9 @@ export default function Stock(): any {
     setEditItemId(item.id);
 
     const formValues = {
-      nome: item.nome,
-      preco: item.preco,
-      quantidade: item.quantidade,
+      title: item.title,
+      price: item.price,
+      description: item.description,
     };
 
     setEditFormData(formValues);
@@ -154,14 +161,48 @@ export default function Stock(): any {
    * @description Recebe um comando para apagar uma linha da tabela existente.
    */
   const handleDeleteClick = (itemId) => {
-    const newItems = [...items];
-
-    const index = items.findIndex((item) => item.id === itemId);
-
-    newItems.splice(index, 1);
-
-    setItems(newItems);
+    restaurantApi
+      .delete(`/item/delete/${itemId}`)
+      .then((response) => {
+        setNewChange(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
+
+  /**
+   * @function handleEdit
+   * @description Altera as informações do item selecionado.
+   * @param {number} itemId - Id do item que será editado.
+   */
+  const handleEdit = (itemId: number) => {
+    const newItem = {
+      title: editFormData.title,
+      price: editFormData.price,
+      description: editFormData.description,
+    };
+
+    restaurantApi
+      .patch(`/item/update/${itemId}`, newItem)
+      .then((response) => {
+        setNewChange(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    restaurantApi
+      .get(`/item/get`)
+      .then((response) => {
+        setItens(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [newChange]);
 
   return (
     <div className="stock">
@@ -188,7 +229,7 @@ export default function Stock(): any {
             <input
               className="stock-input"
               type="text"
-              name="nome"
+              name="title"
               required="required"
               placeholder="Insira um nome..."
               onChange={handleAddFormChange}
@@ -197,17 +238,17 @@ export default function Stock(): any {
               className="stock-input"
               type="number"
               step="0.01"
-              name="preco"
+              name="price"
               required="required"
               placeholder="Insira um preço..."
               onChange={handleAddFormChange}
             />
             <input
               className="stock-input"
-              type="number"
-              name="quantidade"
+              type="text"
+              name="description"
               required="required"
-              placeholder="Insira uma quantidade..."
+              placeholder="Insira uma descrição..."
               onChange={handleAddFormChange}
             />
             <button
@@ -237,8 +278,8 @@ export default function Stock(): any {
               </tr>
             </thead>
             <tbody>
-              {items
-                .filter((item) => item.nome.toLowerCase().includes(query))
+              {itens
+                .filter((item) => item.title.toLowerCase().includes(query))
                 .map((item) => (
                   // eslint-disable-next-line react/jsx-no-useless-fragment
                   <>
@@ -247,10 +288,10 @@ export default function Stock(): any {
                         <td>
                           <input
                             type="text"
-                            name="nome"
+                            name="title"
                             required="required"
                             placeholder="Insira um nome..."
-                            value={editFormData.nome}
+                            value={editFormData.title}
                             onChange={handleEditFormChange}
                           />
                         </td>
@@ -258,25 +299,29 @@ export default function Stock(): any {
                           <input
                             type="number"
                             step="0.01"
-                            name="preco"
+                            name="price"
                             required="required"
                             placeholder="Insira um preço..."
-                            value={editFormData.preco}
+                            value={editFormData.price}
                             onChange={handleEditFormChange}
                           />
                         </td>
                         <td>
                           <input
-                            type="number"
-                            name="quantidade"
+                            type="text"
+                            name="description"
                             required="required"
-                            placeholder="Insira uma quantidade..."
-                            value={editFormData.quantidade}
+                            placeholder="Insira uma descrição..."
+                            value={editFormData.description}
                             onChange={handleEditFormChange}
                           />
                         </td>
                         <td>
-                          <button className="stock-table-button" type="submit">
+                          <button
+                            className="stock-table-button"
+                            type="submit"
+                            onClick={() => handleEdit(item.id)}
+                          >
                             Atualizar
                           </button>
                           <button
@@ -290,9 +335,9 @@ export default function Stock(): any {
                       </tr>
                     ) : (
                       <tr className="stock-table-striped-readOnly">
-                        <td>{item.nome}</td>
-                        <td>{item.preco.toFixed(2)}</td>
-                        <td>{item.quantidade}</td>
+                        <td>{item.title}</td>
+                        <td>{item.price}</td>
+                        <td className="description">{item.description}</td>
                         <td>
                           <button
                             className="stock-table-button"

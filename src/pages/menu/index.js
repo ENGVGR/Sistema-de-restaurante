@@ -13,7 +13,7 @@ const title = 'titleCardapio';
  * @return {html} Retorna a tela do cardápio.
  */
 export default function Menu(): any {
-  const [itens, setItens] = useState();
+  const [itens, setItens] = useState([]);
 
   useEffect(() => {
     restaurantApi

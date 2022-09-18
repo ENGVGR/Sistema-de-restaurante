@@ -40,7 +40,7 @@ export default function MenuItem(props: ReadOnlyProps): any {
           {name || 'Nome'}
         </Card.Title>
         <Card.Text style={{ color: '#EBEAA9' }} role={priceRole}>
-          {price ? `R$ ${price},00` : 'Preço'}
+          {price ? `R$ ${price}` : 'Preço'}
         </Card.Text>
         <Card.Text style={{ color: '#EBEAA9' }} role={ingredientsRole}>
           {ingredients || 'Ingredientes'}
