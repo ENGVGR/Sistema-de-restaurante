@@ -51,6 +51,7 @@ export default function Monitor(): any {
    * @function handleAddFormChange
    * @description Recebe no formulário de adição de linha nova
    * as informações digitadas.
+   * @param {React.ChangeEventHandler<HTMLInputElement>} event - Evento de editar os dados de um formulário
    */
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -68,6 +69,7 @@ export default function Monitor(): any {
    * @function handleEditFormChange
    * @description Recebe no formulário de edição de linha da tabela existente
    * as informações digitadas.
+   * @param {React.ChangeEventHandler<HTMLInputElement>} event - Evento de editar os dados de um formulário
    */
   const handleEditFormChange = (event) => {
     event.preventDefault();
@@ -85,6 +87,7 @@ export default function Monitor(): any {
    * @function handleAddFormSubmit
    * @description Recebe um comando de adição de nova linha da tabela
    * e adiciona as informações informadas à tabela.
+   * @param {React.FormEventHandler<HTMLFormElement>} event - Evento de submeter um formulário
    */
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
@@ -107,6 +110,7 @@ export default function Monitor(): any {
    * @function handleEditFormSubmit
    * @description Recebe um comando de confirmação de edição de linha da tabela existente
    * e sobreescreve a linha da tabela com as informações informadas.
+   * @param {React.FormEventHandler<HTMLFormElement>} event - Evento de submeter um formulário
    */
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
@@ -128,6 +132,8 @@ export default function Monitor(): any {
    * @function handleEditClick
    * @description Recebe um comando de edição de linha da tabela existente
    * e modifica a linha da tabela para receber um formulário.
+   * @param {React.MouseEventHandler<HTMLButtonElement>} event - Evento de receber um clique no Botão
+   * @param {Object} item - Objeto que possui os atributos de um item da tabela
    */
   const handleEditClick = (event, item) => {
     event.preventDefault();
@@ -151,6 +157,7 @@ export default function Monitor(): any {
   /**
    * @function handleDeleteClick
    * @description Recebe um comando para apagar uma linha da tabela existente.
+   * @param {number} itemId - Id do item que será apoagado.
    */
   const handleDeleteClick = (itemId) => {
     restaurantApi
