@@ -49,7 +49,12 @@ export default function MyNavBar(): any {
           >
             Estoque
           </Nav.Link>
-          <Nav.Link className="navBar-link" role={garcons}>
+          <Nav.Link
+            className="navBar-link"
+            as={Link}
+            to="/employeeMonitoring"
+            role={garcons}
+          >
             Garçons
           </Nav.Link>
         </Nav>

@@ -4,6 +4,7 @@ import LoginPage from '../pages/loginPage';
 import Menu from '../pages/menu';
 import Monitor from '../pages/clientMonitoring';
 import Stock from '../pages/stock';
+import EmployeeMonitoring from '../pages/employeeMonitoring';
 
 export default function RoutesApp() {
   return (

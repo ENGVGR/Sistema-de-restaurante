@@ -15,7 +15,7 @@ function LoginPage() {
   const card = 'card';
   /**
    * funcao que captura o que esta escrito no input
-   * @param {event} e 
+   * @param {event} e
    */
   const handleSubmit = (e) => {
     e.preventDefault();
