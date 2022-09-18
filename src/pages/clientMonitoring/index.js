@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable array-callback-return */
 // @flow
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import './index.scss';
 import * as ReactBootStrap from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import MyNavBar from '../../components/navBar';
 import restaurantApi from '../../api';
+import UserContext from '../../context/user.context';
 
 // Para Testes
 const title = 'titleMonitor';
@@ -32,6 +34,8 @@ const data = [];
 export default function Monitor(): any {
   const [itens, setItens] = useState(data);
   const [newChange, setNewChange] = useState();
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const [addFormData, setAddFormData] = useState({
     id: '',
@@ -46,6 +50,8 @@ export default function Monitor(): any {
   });
 
   const [editItemId, setEditItemId] = useState(null);
+
+  if (!user) navigate('/');
 
   /**
    * @function handleAddFormChange
@@ -199,10 +205,10 @@ export default function Monitor(): any {
       .then((response) => {
         console.log('passou');
         const orderList = response.data;
-        orderList.map((user) => {
-          if (costumerId === user.users_id)
+        orderList.map((user2) => {
+          if (costumerId === user2.users_id)
             restaurantApi
-              .patch(`/order/update/${user.id}`, newStatus)
+              .patch(`/order/update/${user2.id}`, newStatus)
               .then((response2) => {
                 console.log(stat);
                 setNewChange(response2);
@@ -229,10 +235,13 @@ export default function Monitor(): any {
           .then((response2) => {
             const orderList = response2.data;
             response.data.map((item) => {
-              orderList.map((user) => {
-                if (item.id === user.users_id && user.status.data[0] === 1)
+              orderList.map((user2) => {
+                if (item.id === user2.users_id && user2.status.data[0] === 1)
                   item.status = 'Finalizado';
-                else if (item.id === user.users_id && user.status.data[0] === 0)
+                else if (
+                  item.id === user2.users_id &&
+                  user2.status.data[0] === 0
+                )
                   item.status = 'Em andamento';
                 else item.status = 'Aguardando atendimento';
               });

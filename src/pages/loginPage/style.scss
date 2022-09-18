@@ -1,77 +1,70 @@
-body{
-    margin: 0;
+body {
+  margin: 0;
 }
 
-.mainDiv{
-    background: #0E0B29;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+.mainDiv {
+  background: #0e0b29;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.leftDiv{
-    width: 50vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-
+.leftDiv {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
-.rightDiv{
-    width: 50vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+.rightDiv {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.cardLogin{
-    margin: 0;
-    background-color:#3B0032; 
-    width: 240px;
-    height: 360px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    border-radius: 20px;
-    box-shadow: 0px 10px 40px #00000056;
-
-
+.cardLogin {
+  margin: 0;
+  background-color: #3b0032;
+  width: 240px;
+  height: 360px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 20px;
+  box-shadow: 0px 10px 40px #00000056;
 }
-.textfield{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+.textfield {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
-.textInput{
-    width: 180px;
-    border: none;
-    padding: 12px;
-    margin-top: 35px;
-    border-radius:10px;
-    background-color: #EBEAA9;
+.textInput {
+  width: 180px;
+  border: none;
+  padding: 12px;
+  margin-top: 35px;
+  border-radius: 10px;
+  background-color: #ebeaa9;
 }
-.btn{
-    width: 100%;
-    border: none;
-    padding: 10px;
-    margin-top: 15%;
-    border-radius:10px;
-    cursor: pointer;
-    letter-spacing: 5px;
-    width: 180px;
-    background-color: #7D2948;
-    color: #EBEAA9;
-
+.btn2 {
+  width: 100%;
+  border: none;
+  padding: 10px;
+  margin-top: 15%;
+  border-radius: 10px;
+  cursor: pointer;
+  letter-spacing: 5px;
+  width: 180px;
+  background-color: #7d2948;
+  color: #ebeaa9;
 }
-.title{
-    font-weight: bold;
-    color: #EBEAA9;
-    margin-bottom: 50px;
-    
+.title {
+  font-weight: bold;
+  color: #ebeaa9;
+  margin-bottom: 50px;
 }

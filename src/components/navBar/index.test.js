@@ -10,6 +10,7 @@ it('render navBar', () => {
 
   expect(screen.getByRole('title')).toHaveTextContent(/X Burger/);
   expect(screen.getByRole('clientes')).toHaveTextContent(/Clientes/);
+  expect(screen.getByRole('login')).toHaveTextContent(/Login/);
   expect(screen.getByRole('pedidos')).toHaveTextContent(/Pedidos/);
   expect(screen.getByRole('cardápio')).toHaveTextContent(/Cardápio/);
   expect(screen.getByRole('estoque')).toHaveTextContent(/Estoque/);
