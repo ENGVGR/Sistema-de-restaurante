@@ -13,6 +13,11 @@ export default function RoutesApp() {
         <Route element={<Menu />} path="/" exact />
         <Route element={<Monitor />} path="/clientMonitoring" exact />
         <Route element={<Stock />} path="/stock" exact />
+        <Route
+          element={<EmployeeMonitoring />}
+          path="/employeeMonitoring"
+          exact
+        />
       </Routes>
     </BrowserRouter>
   );
