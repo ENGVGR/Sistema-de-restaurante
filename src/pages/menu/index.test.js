@@ -9,6 +9,4 @@ it('render menu', () => {
   render(<Menu />);
 
   expect(screen.getByRole('titleCardapio')).toHaveTextContent(/Cardápio/);
-  expect(screen.getByRole('burguer')).toHaveTextContent(/Hambúrgueres/);
-  expect(screen.getByRole('drink')).toHaveTextContent(/Bebidas/);
 });
