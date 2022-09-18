@@ -1,8 +1,11 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable array-callback-return */
 // @flow
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import './index.scss';
 import * as ReactBootStrap from 'react-bootstrap';
 import MyNavBar from '../../components/navBar';
+import restaurantApi from '../../api';
 
 // Para Testes
 const title = 'titleMonitor';
@@ -16,7 +19,6 @@ const columm2Name = 'Mesa';
 const columm3Name = 'Status';
 
 const data = [];
-let newId = 1;
 
 /**
  * @function Monitor
@@ -28,18 +30,19 @@ let newId = 1;
  * @return {html} Retorna a tela de monitoramento e edição de clientes.
  */
 export default function Monitor(): any {
-  const [items, setItems] = useState(data);
+  const [itens, setItens] = useState(data);
+  const [newCange, setNewCange] = useState();
 
   const [addFormData, setAddFormData] = useState({
-    nome: '',
-    mesa: '',
-    estatus: '',
+    id: '',
+    table: '',
+    status: '',
   });
 
   const [editFormData, setEditFormData] = useState({
-    nome: '',
-    mesa: '',
-    estatus: '',
+    id: '',
+    table: '',
+    status: '',
   });
 
   const [editItemId, setEditItemId] = useState(null);
@@ -86,16 +89,18 @@ export default function Monitor(): any {
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
-    const newItem = {
-      id: newId,
-      nome: addFormData.nome,
-      mesa: parseInt(addFormData.mesa, 10),
-      estatus: addFormData.estatus,
+    const newTable = {
+      table: parseInt(addFormData.table, 10),
     };
-    newId += 1;
 
-    const newItems = [...items, newItem];
-    setItems(newItems);
+    restaurantApi
+      .post(`/costumer/create`, newTable)
+      .then(() => {
+        setNewCange(newTable);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   /**
@@ -107,16 +112,15 @@ export default function Monitor(): any {
     event.preventDefault();
 
     const editedItem = {
-      id: editItemId,
-      nome: editFormData.nome,
-      mesa: parseInt(editFormData.mesa, 10),
-      estatus: editFormData.estatus,
+      id: editFormData.id,
+      table: parseInt(editFormData.table, 10),
+      status: editFormData.status,
     };
 
-    const newItems = [...items];
-    const index = items.findIndex((item) => item.id === editItemId);
-    newItems[index] = editedItem;
-    setItems(newItems);
+    const newItens = [...itens];
+    const index = itens.findIndex((item) => item.id === editItemId);
+    newItens[index] = editedItem;
+    setItens(newItens);
     setEditItemId(null);
   };
 
@@ -130,9 +134,7 @@ export default function Monitor(): any {
     setEditItemId(item.id);
 
     const formValues = {
-      nome: item.nome,
-      mesa: item.mesa,
-      estatus: item.estatus,
+      table: item.table,
     };
 
     setEditFormData(formValues);
@@ -151,16 +153,100 @@ export default function Monitor(): any {
    * @description Recebe um comando para apagar uma linha da tabela existente.
    */
   const handleDeleteClick = (itemId) => {
-    const newItems = [...items];
-
-    const index = items.findIndex((item) => item.id === itemId);
-
-    newItems.splice(index, 1);
-
-    setItems(newItems);
+    restaurantApi
+      .delete(`/costumer/delete/${itemId}`)
+      .then((response) => {
+        setNewCange(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
-  const [query, setQuery] = useState('');
+  /**
+   * @function handleEdit
+   * @description Altera o número da mesa do cliente selecionado.
+   * @param {number} costumerId - Id do cliente que será editado.
+   */
+  const handleEdit = (costumerId: number) => {
+    const newTable = {
+      table: parseInt(editFormData.table, 10),
+    };
+
+    restaurantApi
+      .patch(`/costumer/update/${costumerId}`, newTable)
+      .then((response) => {
+        setNewCange(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  /**
+   * @function handleEditStatus
+   * @description Altera o status do pedido do cliente selecionado.
+   * @param {number} costumerId - Id do cliente que será editado.
+   * @param {string} stat - novo status que será recebido.
+   */
+  const handleEditStatus = (costumerId: number, stat: string) => {
+    const newStatus = {
+      status: stat,
+    };
+
+    restaurantApi
+      .get(`/order/get`)
+      .then((response) => {
+        console.log('passou');
+        const orderList = response.data;
+        orderList.map((user) => {
+          if (costumerId === user.users_id)
+            restaurantApi
+              .patch(`/order/update/${user.id}`, newStatus)
+              .then((response2) => {
+                console.log(stat);
+                setNewCange(response2);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+        });
+      })
+
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  /* const [query, setQuery] = useState(''); */
+
+  useEffect(() => {
+    restaurantApi
+      .get(`/costumer/get`)
+      .then((response) => {
+        restaurantApi
+          .get(`/order/get`)
+          .then((response2) => {
+            const orderList = response2.data;
+            response.data.map((item) => {
+              orderList.map((user) => {
+                if (item.id === user.users_id && user.status.data[0] === 1)
+                  item.status = 'Finalizado';
+                else if (item.id === user.users_id && user.status.data[0] === 0)
+                  item.status = 'Em andamento';
+                else item.status = 'Aguardando atendimento';
+              });
+            });
+            setItens(response.data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [itens, newCange]);
 
   return (
     <div className="monitor">
@@ -179,33 +265,17 @@ export default function Monitor(): any {
             className="monitor-preface-search-input"
             type="text"
             placeholder="Buscar..."
-            onChange={(e) => setQuery(e.target.value)}
+            /* onChange={(e) => setQuery(e.target.value)} */
           />
         </div>
         <div className="monitor-preface-form">
           <form onSubmit={handleAddFormSubmit}>
             <input
               className="monitor-input"
-              type="text"
-              name="nome"
-              required="required"
-              placeholder="Insira um nome..."
-              onChange={handleAddFormChange}
-            />
-            <input
-              className="monitor-input"
               type="number"
-              name="mesa"
+              name="table"
               required="required"
-              placeholder="Número da mesa:"
-              onChange={handleAddFormChange}
-            />
-            <input
-              className="monitor-input"
-              type="text"
-              name="estatus"
-              required="required"
-              placeholder="Status do pedido:"
+              placeholder="Número da mesa..."
               onChange={handleAddFormChange}
             />
             <button
@@ -234,8 +304,8 @@ export default function Monitor(): any {
               </tr>
             </thead>
             <tbody>
-              {items
-                .filter((item) => item.nome.toLowerCase().includes(query))
+              {itens
+                /* .filter((item) => item.id.includes(query)) */
                 .map((item) => (
                   // eslint-disable-next-line react/jsx-no-useless-fragment
                   <>
@@ -243,31 +313,20 @@ export default function Monitor(): any {
                       <tr className="monitor-table-striped-editable">
                         <td>
                           <input
-                            type="text"
-                            name="nome"
+                            readOnly
+                            name="table"
                             required="required"
-                            placeholder="Insira um nome..."
-                            value={editFormData.nome}
-                            onChange={handleEditFormChange}
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            name="mesa"
-                            required="required"
-                            placeholder="Insira um preço..."
-                            value={editFormData.mesa}
-                            onChange={handleEditFormChange}
+                            placeholder="Id"
+                            value={item.id}
                           />
                         </td>
                         <td>
                           <input
                             type="text"
-                            name="estatus"
+                            name="table"
                             required="required"
-                            placeholder="Status do pedido:"
-                            value={editFormData.estatus}
+                            placeholder="Número da mesa..."
+                            value={editFormData.table}
                             onChange={handleEditFormChange}
                           />
                         </td>
@@ -275,6 +334,23 @@ export default function Monitor(): any {
                           <button
                             className="monitor-table-button"
                             type="submit"
+                            onClick={() => handleEditStatus(item.id, 0)}
+                          >
+                            Em andamento
+                          </button>
+                          <button
+                            className="monitor-table-button"
+                            type="submit"
+                            onClick={() => handleEditStatus(item.id, 1)}
+                          >
+                            Finalizar
+                          </button>
+                        </td>
+                        <td>
+                          <button
+                            className="monitor-table-button"
+                            type="submit"
+                            onClick={() => handleEdit(item.id)}
                           >
                             Atualizar
                           </button>
@@ -289,9 +365,9 @@ export default function Monitor(): any {
                       </tr>
                     ) : (
                       <tr className="monitor-table-striped-readOnly">
-                        <td>{item.nome}</td>
-                        <td>{item.mesa}</td>
-                        <td>{item.estatus}</td>
+                        <td>{item.id}</td>
+                        <td>{item.table}</td>
+                        <td>{item.status}</td>
                         <td>
                           <button
                             className="monitor-table-button"
