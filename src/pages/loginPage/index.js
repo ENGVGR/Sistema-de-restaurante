@@ -2,11 +2,21 @@ import React, { useState } from 'react';
 import './style.scss';
 import waiters from '../../assets/waiters-animate.svg';
 
+/**
+ * @function LoginPage
+ * @description Componente que retorna a pagina de Login do sistema.
+ * @returns {html} Retorna a pagina de login do sisema.
+ */
+
 function LoginPage() {
   const [user, setUser] = useState('');
   const [password, setPassword] = useState('');
   const image = 'image';
   const card = 'card';
+  /**
+   * funcao que captura o que esta escrito no input
+   * @param {event} e 
+   */
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(user);

@@ -17,6 +17,7 @@
     }
   },
   "plugins": ["prettier", "react", "flowtype"],
+  "ignorePatterns": ["flow-typed/*"],
 
   "rules": {
     "react/jsx-filename-extension": [
@@ -24,6 +25,8 @@
       {
         "extensions": [".js", ".jsx"]
       }
-    ]
+    ],
+    "react/prop-types": "off",
+    "react/no-array-index-key": "off"
   }
 }
