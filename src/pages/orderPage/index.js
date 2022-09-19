@@ -6,10 +6,10 @@ import MyNavBar from '../../components/navBar';
 import restaurantApi from '../../api';
 
 // Para Testes
-const order = 'titleStock';
-const subtitle = 'subtitleStock';
-const collumName = 'collumNameStock';
-const buttonName = 'buttonNameStock';
+const order = 'titleOrder';
+const subtitle = 'subtitleOrder';
+const collumName = 'collumNameOrder';
+const buttonName = 'buttonNameOrder';
 
 // Nome das colunas da tabela
 const columm1Name = 'Garçom';
@@ -22,7 +22,7 @@ const data = [];
 
 /**
  * @function Stock
- * @description Tela de pedidos.
+ * @description Tela de pedid.
  *  Possui as funcionalidades de:
  *  - Adicionar novas linhas a partir de um formulário e um botão;
  *  - Editar linhas já existentes a partir de uma coluna de ações;
