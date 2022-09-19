@@ -1,17 +1,19 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable array-callback-return */
 // @flow
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
 import './index.scss';
 import * as ReactBootStrap from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import MyNavBar from '../../components/navBar';
 import restaurantApi from '../../api';
+import UserContext from '../../context/user.context';
 
 // Para Testes
 const title = 'titleMonitor';
 const subtitle = 'subtitleMonitor';
 const collumName = 'collumNameMonitor';
-const buttonName = 'buttonNameMonitor';
+const buttonAdd = 'buttonNameMonitor';
 
 // Nome das colunas da tabela
 const columm1Name = 'Cliente';
@@ -32,6 +34,8 @@ const data = [];
 export default function Monitor(): any {
   const [itens, setItens] = useState(data);
   const [newChange, setNewChange] = useState();
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   const [addFormData, setAddFormData] = useState({
     id: '',
@@ -47,10 +51,13 @@ export default function Monitor(): any {
 
   const [editItemId, setEditItemId] = useState(null);
 
+  if (!user) navigate('/');
+
   /**
    * @function handleAddFormChange
    * @description Recebe no formulário de adição de linha nova
    * as informações digitadas.
+   * @param {React.ChangeEventHandler<HTMLInputElement>} event - Evento de editar os dados de um formulário
    */
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -68,6 +75,7 @@ export default function Monitor(): any {
    * @function handleEditFormChange
    * @description Recebe no formulário de edição de linha da tabela existente
    * as informações digitadas.
+   * @param {React.ChangeEventHandler<HTMLInputElement>} event - Evento de editar os dados de um formulário
    */
   const handleEditFormChange = (event) => {
     event.preventDefault();
@@ -85,6 +93,7 @@ export default function Monitor(): any {
    * @function handleAddFormSubmit
    * @description Recebe um comando de adição de nova linha da tabela
    * e adiciona as informações informadas à tabela.
+   * @param {React.FormEventHandler<HTMLFormElement>} event - Evento de submeter um formulário
    */
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
@@ -107,6 +116,7 @@ export default function Monitor(): any {
    * @function handleEditFormSubmit
    * @description Recebe um comando de confirmação de edição de linha da tabela existente
    * e sobreescreve a linha da tabela com as informações informadas.
+   * @param {React.FormEventHandler<HTMLFormElement>} event - Evento de submeter um formulário
    */
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
@@ -128,6 +138,8 @@ export default function Monitor(): any {
    * @function handleEditClick
    * @description Recebe um comando de edição de linha da tabela existente
    * e modifica a linha da tabela para receber um formulário.
+   * @param {React.MouseEventHandler<HTMLButtonElement>} event - Evento de receber um clique no Botão
+   * @param {Object} item - Objeto que possui os atributos de um item da tabela
    */
   const handleEditClick = (event, item) => {
     event.preventDefault();
@@ -151,6 +163,7 @@ export default function Monitor(): any {
   /**
    * @function handleDeleteClick
    * @description Recebe um comando para apagar uma linha da tabela existente.
+   * @param {number} itemId - Id do item que será apoagado.
    */
   const handleDeleteClick = (itemId) => {
     restaurantApi
@@ -199,10 +212,10 @@ export default function Monitor(): any {
       .then((response) => {
         console.log('passou');
         const orderList = response.data;
-        orderList.map((user) => {
-          if (costumerId === user.users_id)
+        orderList.map((user2) => {
+          if (costumerId === user2.users_id)
             restaurantApi
-              .patch(`/order/update/${user.id}`, newStatus)
+              .patch(`/order/update/${user2.id}`, newStatus)
               .then((response2) => {
                 console.log(stat);
                 setNewChange(response2);
@@ -229,10 +242,13 @@ export default function Monitor(): any {
           .then((response2) => {
             const orderList = response2.data;
             response.data.map((item) => {
-              orderList.map((user) => {
-                if (item.id === user.users_id && user.status.data[0] === 1)
+              orderList.map((user2) => {
+                if (item.id === user2.users_id && user2.status.data[0] === 1)
                   item.status = 'Finalizado';
-                else if (item.id === user.users_id && user.status.data[0] === 0)
+                else if (
+                  item.id === user2.users_id &&
+                  user2.status.data[0] === 0
+                )
                   item.status = 'Em andamento';
                 else item.status = 'Aguardando atendimento';
               });
@@ -281,7 +297,7 @@ export default function Monitor(): any {
             <button
               className="monitor-preface-search-button"
               type="submit"
-              role={buttonName}
+              role={buttonAdd}
             >
               Adicionar
             </button>

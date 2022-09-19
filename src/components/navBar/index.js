@@ -1,17 +1,17 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 // @flow
-import React from 'react';
+import React, { useContext } from 'react';
 import './index.scss';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 // $FlowFixMe
 import 'bootstrap/dist/css/bootstrap.min.css';
+// $FlowFixMe
 import { Link } from 'react-router-dom';
+import UserContext from '../../context/user.context';
 
 const title = 'title';
-const clientes = 'clientes';
-const pedidos = 'pedidos';
+const login = 'login';
 const cardapio = 'cardápio';
-const estoque = 'estoque';
-const garcons = 'garçons';
 
 /**
  * @function MyNavBar
@@ -20,43 +20,79 @@ const garcons = 'garçons';
  */
 
 export default function MyNavBar(): any {
+  const { user, setUser } = useContext(UserContext);
+
   return (
     <Navbar className="navBar">
       <Container>
-        <Navbar.Text className="navBar-title" role={title}>
+        <Navbar.Text
+          style={{ color: '#ebeaa9', size: '20px' }}
+          className="teste"
+          role={title}
+        >
           X Burger
         </Navbar.Text>
         <Nav className="me-auto">
-          <Nav.Link className="navBar-link" role={clientes} as={Link} to="/">
-            Cardápio
-          </Nav.Link>
           <Nav.Link
-            className="navBar-link"
-            role={pedidos}
-            as={Link}
-            to="/order"
-          >
-            Pedidos
-          </Nav.Link>
-          <Nav.Link
-            className="navBar-link"
+            style={{ color: '#ebeaa9' }}
             role={cardapio}
             as={Link}
-            to="/clientMonitoring"
+            to="/"
           >
-            Clientes
+            Cardápio
           </Nav.Link>
-          <Nav.Link
-            className="navBar-link"
-            role={estoque}
-            as={Link}
-            to="/stock"
-          >
-            Estoque
-          </Nav.Link>
-          <Nav.Link className="navBar-link" role={garcons}>
-            Garçons
-          </Nav.Link>
+          {user ? (
+            <>
+              <Nav.Link style={{ color: '#ebeaa9' }}>Pedidos</Nav.Link>
+              <Nav.Link
+                style={{ color: '#ebeaa9' }}
+                as={Link}
+                to="/clientMonitoring"
+              >
+                Clientes
+              </Nav.Link>
+              <Nav.Link style={{ color: '#ebeaa9' }} as={Link} to="/stock">
+                Estoque
+              </Nav.Link>
+            </>
+          ) : (
+            <Nav.Link
+              style={{ color: '#ebeaa9' }}
+              role={login}
+              as={Link}
+              to="/login"
+            >
+              Login
+            </Nav.Link>
+          )}
+
+          <Nav.Link style={{ color: '#ebeaa9' }} as={Link} to="/" />
+          {user && user.role === 'Admin' ? (
+            <Nav.Link
+              style={{ color: '#ebeaa9' }}
+              as={Link}
+              to="/employeeMonitoring"
+            >
+              Funcionários
+            </Nav.Link>
+          ) : (
+            <></>
+          )}
+          {user ? (
+            <Nav.Link
+              style={{ color: '#ebeaa9' }}
+              role={login}
+              as={Link}
+              to="/login"
+              onClick={() => {
+                setUser();
+              }}
+            >
+              Logout
+            </Nav.Link>
+          ) : (
+            <></>
+          )}
         </Nav>
       </Container>
     </Navbar>
