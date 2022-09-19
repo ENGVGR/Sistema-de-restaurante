@@ -68,7 +68,6 @@ export default function MyNavBar(): any {
             </Nav.Link>
           )}
 
-          <Nav.Link style={{ color: '#ebeaa9' }} as={Link} to="/" />
           {user && user.role === 'Admin' ? (
             <Nav.Link
               style={{ color: '#ebeaa9' }}
