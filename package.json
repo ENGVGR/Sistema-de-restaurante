@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "test": "jest",
+    "test": "jest --silent",
     "coverage": "jest --coverage",
     "eject": "react-scripts eject",
     "lint": "eslint --fix main.js",
@@ -74,7 +74,8 @@
   },
   "jest": {
     "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
+      "^.+\\.[t|j]sx?$": "babel-jest",
+      "^.+\\.svg$": "<rootDir>/svgTransform.js"
     },
     "moduleNameMapper": {
       "\\.(css|scss)$": "identity-obj-proxy"
