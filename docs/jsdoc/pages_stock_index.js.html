@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>pages/stock/index.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#EmployeeMonitoring">EmployeeMonitoring</a></li><li><a href="global.html#handleAddFormChange">handleAddFormChange</a></li><li><a href="global.html#handleAddFormSubmit">handleAddFormSubmit</a></li><li><a href="global.html#handleCancelClick">handleCancelClick</a></li><li><a href="global.html#handleDeleteClick">handleDeleteClick</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleEditClick">handleEditClick</a></li><li><a href="global.html#handleEditFormChange">handleEditFormChange</a></li><li><a href="global.html#handleEditFormSubmit">handleEditFormSubmit</a></li><li><a href="global.html#handleEditStatus">handleEditStatus</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItem">MenuItem</a></li><li><a href="global.html#Monitor">Monitor</a></li><li><a href="global.html#MyNavBar">MyNavBar</a></li><li><a href="global.html#Stock">Stock</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">pages/stock/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//      
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import './index.scss';
+import * as ReactBootStrap from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import MyNavBar from '../../components/navBar';
+import restaurantApi from '../../api';
+import UserContext from '../../context/user.context';
+
+// Para Testes
+const title = 'titleStock';
+const subtitle = 'subtitleStock';
+const collumName = 'collumNameStock';
+const buttonName = 'buttonNameStock';
+
+// Nome das colunas da tabela
+const columm1Name = 'Nome';
+const columm2Name = 'Preço (R$)';
+const columm3Name = 'Descrição';
+const columm4Name = 'Ações';
+
+const data = [];
+
+/**
+ * @function Stock
+ * @description Tela do estoque.
+ *  Possui as funcionalidades de:
+ *  - Adicionar novas linhas a partir de um formulário e um botão;
+ *  - Editar linhas já existentes a partir de uma coluna de ações;
+ *  - Filtrar os resultados com um bloco de texto
+ * @return {html} Retorna a tela do estoque.
+ */
+export default function Stock()      {
+  const [itens, setItens] = useState(data);
+  const [newChange, setNewChange] = useState(data);
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  if (!user) navigate('/');
+
+  const [addFormData, setAddFormData] = useState({
+    title: '',
+    price: '',
+    description: '',
+  });
+
+  const [editFormData, setEditFormData] = useState({
+    title: '',
+    price: '',
+    description: '',
+  });
+
+  const [editItemId, setEditItemId] = useState(null);
+
+  const [query, setQuery] = useState('');
+
+  /**
+   * @function handleAddFormChange
+   * @description Recebe no formulário de adição de linha nova
+   * as informações digitadas.
+   * @param {React.ChangeEventHandler&lt;HTMLInputElement>} event - Evento de editar os dados de um formulário
+   */
+  const handleAddFormChange = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.getAttribute('name');
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...addFormData };
+    newFormData[fieldName] = fieldValue;
+
+    setAddFormData(newFormData);
+  };
+
+  /**
+   * @function handleEditFormChange
+   * @description Recebe no formulário de edição de linha da tabela existente
+   * as informações digitadas.
+   * @param {React.ChangeEventHandler&lt;HTMLInputElement>} event - Evento de editar os dados de um formulário
+   */
+  const handleEditFormChange = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.getAttribute('name');
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...editFormData };
+    newFormData[fieldName] = fieldValue;
+
+    setEditFormData(newFormData);
+  };
+
+  /**
+   * @function handleAddFormSubmit
+   * @description Recebe um comando de adição de nova linha da tabela
+   * e adiciona as informações informadas à tabela.
+   * @param {React.FormEventHandler&lt;HTMLFormElement>} event - Evento de submeter um formulário
+   */
+  const handleAddFormSubmit = (event) => {
+    event.preventDefault();
+
+    const newItem = {
+      title: addFormData.title,
+      price: addFormData.price,
+      description: addFormData.description,
+      menus_id: 1,
+      users_id: 1,
+    };
+
+    restaurantApi
+      .post(`/item/create`, newItem)
+      .then((response) => {
+        console.log(response);
+        setNewChange(newItem);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  /**
+   * @function handleEditFormSubmit
+   * @description Recebe um comando de confirmação de edição de linha da tabela existente
+   * e sobreescreve a linha da tabela com as informações informadas.
+   * @param {React.FormEventHandler&lt;HTMLFormElement>} event - Evento de submeter um formulário
+   */
+  const handleEditFormSubmit = (event) => {
+    event.preventDefault();
+
+    const editedItem = {
+      title: editFormData.title,
+      price: editFormData.price,
+      description: editFormData.description,
+    };
+
+    const newItens = [...itens];
+    const index = itens.findIndex((item) => item.id === editItemId);
+    newItens[index] = editedItem;
+    setItens(newItens);
+    setEditItemId(null);
+  };
+
+  /**
+   * @function handleEditClick
+   * @description Recebe um comando de edição de linha da tabela existente
+   * e modifica a linha da tabela para receber um formulário.
+   * @param {React.MouseEventHandler&lt;HTMLButtonElement>} event - Evento de receber um clique no Botão
+   * @param {Object} item - Objeto que possui os atributos de um item da tabela
+   */
+  const handleEditClick = (event, item) => {
+    event.preventDefault();
+    setEditItemId(item.id);
+
+    const formValues = {
+      title: item.title,
+      price: item.price,
+      description: item.description,
+    };
+
+    setEditFormData(formValues);
+  };
+
+  /**
+   * @function handleCancelClick
+   * @description Recebe um comando para cancelar a edição de linha da tabela existente.
+   */
+  const handleCancelClick = () => {
+    setEditItemId(null);
+  };
+
+  /**
+   * @function handleDeleteClick
+   * @description Recebe um comando para apagar uma linha da tabela existente.
+   * @param {number} itemId - Id do item que será apoagado.
+   */
+  const handleDeleteClick = (itemId) => {
+    restaurantApi
+      .delete(`/item/delete/${itemId}`)
+      .then((response) => {
+        setNewChange(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  /**
+   * @function handleEdit
+   * @description Altera as informações do item selecionado.
+   * @param {number} itemId - Id do item que será editado.
+   */
+  const handleEdit = (itemId) => {
+    const newItem = {
+      title: editFormData.title,
+      price: editFormData.price,
+      description: editFormData.description,
+    };
+
+    restaurantApi
+      .patch(`/item/update/${itemId}`, newItem)
+      .then((response) => {
+        setNewChange(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    restaurantApi
+      .get(`/item/get`)
+      .then((response) => {
+        setItens(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [newChange]);
+
+  return (
+    &lt;div className="stock">
+      &lt;MyNavBar />
+      &lt;div className="stock-title">
+        &lt;span className="stock-title__span" role={title}>
+          Estoque
+        &lt;/span>
+      &lt;/div>
+      &lt;div className="stock-subtitle" role={subtitle}>
+        &lt;span className="stock-subtitle__span">Adicionar novo item&lt;/span>
+      &lt;/div>
+      &lt;div className="stock-preface">
+        &lt;div className="stock-preface-search">
+          &lt;input
+            className="stock-preface-search-input"
+            type="text"
+            placeholder="Buscar..."
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        &lt;/div>
+        &lt;div className="stock-preface-form">
+          &lt;form onSubmit={handleAddFormSubmit}>
+            &lt;input
+              className="stock-input"
+              type="text"
+              name="title"
+              required="required"
+              placeholder="Insira um nome..."
+              onChange={handleAddFormChange}
+            />
+            &lt;input
+              className="stock-input"
+              type="number"
+              step="0.01"
+              name="price"
+              required="required"
+              placeholder="Insira um preço..."
+              onChange={handleAddFormChange}
+            />
+            &lt;input
+              className="stock-input"
+              type="text"
+              name="description"
+              required="required"
+              placeholder="Insira uma descrição..."
+              onChange={handleAddFormChange}
+            />
+            &lt;button
+              className="stock-preface-search-button"
+              type="submit"
+              role={buttonName}
+            >
+              Adicionar
+            &lt;/button>
+          &lt;/form>
+        &lt;/div>
+      &lt;/div>
+      &lt;div className="stock-table">
+        &lt;form onSubmit={handleEditFormSubmit}>
+          &lt;ReactBootStrap.Table
+            striped
+            boardered
+            hover
+            className="stock-table-striped"
+          >
+            &lt;thead role={collumName}>
+              &lt;tr>
+                &lt;th scope="col">{columm1Name}&lt;/th>
+                &lt;th scope="col">{columm2Name}&lt;/th>
+                &lt;th scope="col">{columm3Name}&lt;/th>
+                &lt;th scope="col">{columm4Name}&lt;/th>
+              &lt;/tr>
+            &lt;/thead>
+            &lt;tbody>
+              {itens
+                .filter((item) => item.title.toLowerCase().includes(query))
+                .map((item) => (
+                  // eslint-disable-next-line react/jsx-no-useless-fragment
+                  &lt;>
+                    {editItemId === item.id ? (
+                      &lt;tr className="stock-table-striped-editable">
+                        &lt;td>
+                          &lt;input
+                            type="text"
+                            name="title"
+                            required="required"
+                            placeholder="Insira um nome..."
+                            value={editFormData.title}
+                            onChange={handleEditFormChange}
+                          />
+                        &lt;/td>
+                        &lt;td>
+                          &lt;input
+                            type="number"
+                            step="0.01"
+                            name="price"
+                            required="required"
+                            placeholder="Insira um preço..."
+                            value={editFormData.price}
+                            onChange={handleEditFormChange}
+                          />
+                        &lt;/td>
+                        &lt;td>
+                          &lt;input
+                            type="text"
+                            name="description"
+                            required="required"
+                            placeholder="Insira uma descrição..."
+                            value={editFormData.description}
+                            onChange={handleEditFormChange}
+                          />
+                        &lt;/td>
+                        &lt;td>
+                          &lt;button
+                            className="stock-table-button"
+                            type="submit"
+                            onClick={() => handleEdit(item.id)}
+                          >
+                            Atualizar
+                          &lt;/button>
+                          &lt;button
+                            className="stock-table-button"
+                            type="button"
+                            onClick={handleCancelClick}
+                          >
+                            Cancelar
+                          &lt;/button>
+                        &lt;/td>
+                      &lt;/tr>
+                    ) : (
+                      &lt;tr className="stock-table-striped-readOnly">
+                        &lt;td>{item.title}&lt;/td>
+                        &lt;td>{item.price}&lt;/td>
+                        &lt;td className="description">{item.description}&lt;/td>
+                        &lt;td>
+                          &lt;button
+                            className="stock-table-button"
+                            type="button"
+                            onClick={(event) => handleEditClick(event, item)}
+                          >
+                            Editar
+                          &lt;/button>
+                          &lt;button
+                            className="stock-table-button"
+                            type="button"
+                            onClick={() => handleDeleteClick(item.id)}
+                          >
+                            Apagar
+                          &lt;/button>
+                        &lt;/td>
+                      &lt;/tr>
+                    )}
+                  &lt;/>
+                ))}
+            &lt;/tbody>
+          &lt;/ReactBootStrap.Table>
+        &lt;/form>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Mon Sep 19 2022 00:45:56 GMT-0300 (Horário Padrão de Brasília) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

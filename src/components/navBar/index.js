@@ -43,7 +43,9 @@ export default function MyNavBar(): any {
           </Nav.Link>
           {user ? (
             <>
-              <Nav.Link style={{ color: '#ebeaa9' }}>Pedidos</Nav.Link>
+              <Nav.Link style={{ color: '#ebeaa9' }} as={Link} to="/order">
+                Pedidos
+              </Nav.Link>
               <Nav.Link
                 style={{ color: '#ebeaa9' }}
                 as={Link}

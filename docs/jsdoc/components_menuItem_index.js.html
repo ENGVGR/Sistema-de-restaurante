@@ -29,7 +29,7 @@
     
     <input type="text" id="nav-search" placeholder="Search" />
     
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItem">MenuItem</a></li><li><a href="global.html#MyNavBar">MyNavBar</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#EmployeeMonitoring">EmployeeMonitoring</a></li><li><a href="global.html#handleAddFormChange">handleAddFormChange</a></li><li><a href="global.html#handleAddFormSubmit">handleAddFormSubmit</a></li><li><a href="global.html#handleCancelClick">handleCancelClick</a></li><li><a href="global.html#handleDeleteClick">handleDeleteClick</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleEditClick">handleEditClick</a></li><li><a href="global.html#handleEditFormChange">handleEditFormChange</a></li><li><a href="global.html#handleEditFormSubmit">handleEditFormSubmit</a></li><li><a href="global.html#handleEditStatus">handleEditStatus</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItem">MenuItem</a></li><li><a href="global.html#Monitor">Monitor</a></li><li><a href="global.html#MyNavBar">MyNavBar</a></li><li><a href="global.html#Stock">Stock</a></li></ul>
 </nav>
 
 <div id="main">
@@ -46,14 +46,13 @@
         <article>
             <pre class="prettyprint source linenums"><code>//      
 import React from 'react';
-import { Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 // $FlowFixMe
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const nameRole = 'name';
 const ingredientsRole = 'ingredients';
 const priceRole = 'price';
-const quantityRole = 'quantity';
 
               
                
@@ -75,69 +74,24 @@ const quantityRole = 'quantity';
  */
 
 export default function MenuItem(props               )      {
-  const { name, price, quantity, ingredients } = props;
-
-  const user = 'costumer';
+  const { name, price, ingredients } = props;
 
   return (
     &lt;Card
       className="text-center"
       style={{ width: 'calc(250px )', margin: '2vh' }}
     >
-      {user === 'costumer' &amp;&amp; (
-        &lt;Card.Body style={{ background: '#3b0032' }}>
-          &lt;Card.Title style={{ color: '#EBEAA9' }} role={nameRole}>
-            {name || 'Nome'}
-          &lt;/Card.Title>
-          &lt;Card.Text style={{ color: '#EBEAA9' }} role={priceRole}>
-            {price ? `R$ ${price},00` : 'Preço'}
-          &lt;/Card.Text>
-          &lt;Card.Text style={{ color: '#EBEAA9' }} role={ingredientsRole}>
-            {ingredients || 'Ingredientes'}
-          &lt;/Card.Text>
-        &lt;/Card.Body>
-      )}
-      {user === 'waiter' &amp;&amp; (
-        &lt;Card.Body style={{ background: '#0E0B29' }}>
-          &lt;Card.Title style={{ color: '#EBEAA9' }} role={nameRole}>
-            {name || 'Nome'}
-          &lt;/Card.Title>
-          &lt;Card.Text style={{ color: '#EBEAA9' }} role={priceRole}>
-            {price ? `R$ ${price},00` : 'Preço'}
-          &lt;/Card.Text>
-          &lt;Card.Text style={{ color: '#EBEAA9' }} role={quantityRole}>
-            {quantity ? `${quantity} unidades` : 'Quantidade'}
-          &lt;/Card.Text>
-          &lt;Card.Text style={{ color: '#EBEAA9' }} role={ingredientsRole}>
-            {ingredients || 'Ingredientes'}
-          &lt;/Card.Text>
-          &lt;Button variant="primary">Adicionar&lt;/Button>
-        &lt;/Card.Body>
-      )}
-
-      {user === 'adm' &amp;&amp; (
-        &lt;Card.Body style={{ background: '#0E0B29' }}>
-          &lt;Card.Title style={{ color: '#EBEAA9' }} role={nameRole}>
-            {name || 'Nome'}
-          &lt;/Card.Title>
-          &lt;Card.Text style={{ color: '#EBEAA9' }} role={priceRole}>
-            {price ? `R$ ${price},00` : 'Preço'}
-          &lt;/Card.Text>
-          &lt;Card.Text style={{ color: '#EBEAA9' }} role={quantityRole}>
-            {quantity ? `${quantity} unidades` : 'Quantidade'}
-          &lt;/Card.Text>
-          &lt;Card.Text style={{ color: '#EBEAA9' }} role={ingredientsRole}>
-            {ingredients || 'Ingredientes'}
-          &lt;/Card.Text>
-          &lt;Button variant="primary">Editar&lt;/Button>
-          &lt;Button
-            variant="primary"
-            style={{ background: 'red', margin: '0px 0px 0px 10px' }}
-          >
-            Excluir
-          &lt;/Button>
-        &lt;/Card.Body>
-      )}
+      &lt;Card.Body style={{ background: '#3b0032' }}>
+        &lt;Card.Title style={{ color: '#EBEAA9' }} role={nameRole}>
+          {name || 'Nome'}
+        &lt;/Card.Title>
+        &lt;Card.Text style={{ color: '#EBEAA9' }} role={priceRole}>
+          {price ? `R$ ${price}` : 'Preço'}
+        &lt;/Card.Text>
+        &lt;Card.Text style={{ color: '#EBEAA9' }} role={ingredientsRole}>
+          {ingredients || 'Ingredientes'}
+        &lt;/Card.Text>
+      &lt;/Card.Body>
     &lt;/Card>
   );
 }
@@ -155,7 +109,7 @@ export default function MenuItem(props               )      {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Sat Sep 10 2022 17:18:02 GMT-0300 (Horário Padrão de Brasília) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Mon Sep 19 2022 00:45:56 GMT-0300 (Horário Padrão de Brasília) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

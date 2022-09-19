@@ -1,8 +1,54 @@
-/* eslint-disable no-unused-vars */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>pages/orderPage/index.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#EmployeeMonitoring">EmployeeMonitoring</a></li><li><a href="global.html#handleAddFormChange">handleAddFormChange</a></li><li><a href="global.html#handleAddFormSubmit">handleAddFormSubmit</a></li><li><a href="global.html#handleCancelClick">handleCancelClick</a></li><li><a href="global.html#handleDeleteClick">handleDeleteClick</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleEditClick">handleEditClick</a></li><li><a href="global.html#handleEditFormChange">handleEditFormChange</a></li><li><a href="global.html#handleEditFormSubmit">handleEditFormSubmit</a></li><li><a href="global.html#handleEditStatus">handleEditStatus</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItem">MenuItem</a></li><li><a href="global.html#Monitor">Monitor</a></li><li><a href="global.html#MyNavBar">MyNavBar</a></li><li><a href="global.html#Stock">Stock</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">pages/orderPage/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-unused-vars */
 /* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
 /* eslint-disable no-param-reassign */
-// @flow
+//      
 import React, { Fragment, useEffect, useState } from 'react';
 import './index.scss';
 import * as ReactBootStrap from 'react-bootstrap';
@@ -33,7 +79,7 @@ const data = [];
  *  - Filtrar os resultados com um bloco de texto
  * @return {html} Retorna a tela do estoque.
  */
-export default function OrderPage(): any {
+export default function OrderPage()      {
   const [itens, setItens] = useState(data);
   const [newChange, setNewChange] = useState(data);
   /* const { user } = useContext(UserContext);
@@ -69,7 +115,7 @@ export default function OrderPage(): any {
    * @function handleAddFormChange
    * @description Recebe no formulário de adição de linha nova
    * as informações digitadas.
-   * @param {React.ChangeEventHandler<HTMLInputElement>} event - Evento de editar os dados de um formulário
+   * @param {React.ChangeEventHandler&lt;HTMLInputElement>} event - Evento de editar os dados de um formulário
    */
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -87,7 +133,7 @@ export default function OrderPage(): any {
    * @function handleEditFormChange
    * @description Recebe no formulário de edição de linha da tabela existente
    * as informações digitadas.
-   * @param {React.ChangeEventHandler<HTMLInputElement>} event - Evento de editar os dados de um formulário
+   * @param {React.ChangeEventHandler&lt;HTMLInputElement>} event - Evento de editar os dados de um formulário
    */
   const handleEditFormChange = (event) => {
     event.preventDefault();
@@ -105,7 +151,7 @@ export default function OrderPage(): any {
    * @function handleAddFormSubmit
    * @description Recebe um comando de adição de nova linha da tabela
    * e adiciona as informações informadas à tabela.
-   * @param {React.FormEventHandler<HTMLFormElement>} event - Evento de submeter um formulário
+   * @param {React.FormEventHandler&lt;HTMLFormElement>} event - Evento de submeter um formulário
    */
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
@@ -159,7 +205,7 @@ export default function OrderPage(): any {
                 let orderId = '';
                 response4.data.map((i) => {
                   if (
-                    i.customers_id === newCostumerId &&
+                    i.customers_id === newCostumerId &amp;&amp;
                     i.users_id === newUserId
                   ) {
                     orderId = i.id;
@@ -191,7 +237,7 @@ export default function OrderPage(): any {
    * @function handleEditFormSubmit
    * @description Recebe um comando de confirmação de edição de linha da tabela existente
    * e sobreescreve a linha da tabela com as informações informadas.
-   * @param {React.FormEventHandler<HTMLFormElement>} event - Evento de submeter um formulário
+   * @param {React.FormEventHandler&lt;HTMLFormElement>} event - Evento de submeter um formulário
    */
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
@@ -213,7 +259,7 @@ export default function OrderPage(): any {
    * @function handleEditClick
    * @description Recebe um comando de edição de linha da tabela existente
    * e modifica a linha da tabela para receber um formulário.
-   * @param {React.MouseEventHandler<HTMLButtonElement>} event - Evento de receber um clique no Botão
+   * @param {React.MouseEventHandler&lt;HTMLButtonElement>} event - Evento de receber um clique no Botão
    * @param {Object} item - Objeto que possui os atributos de um item da tabela
    */
   const handleEditClick = (event, item) => {
@@ -324,28 +370,28 @@ export default function OrderPage(): any {
   }, [newChange]);
 
   return (
-    <div className="stock">
-      <MyNavBar />
-      <div className="stock-title">
-        <span className="stock-title__span" role={title}>
+    &lt;div className="stock">
+      &lt;MyNavBar />
+      &lt;div className="stock-title">
+        &lt;span className="stock-title__span" role={title}>
           Estoque
-        </span>
-      </div>
-      <div className="stock-subtitle" role={subtitle}>
-        <span className="stock-subtitle__span">Adicionar novo item</span>
-      </div>
-      <div className="stock-preface">
-        <div className="stock-preface-search">
-          <input
+        &lt;/span>
+      &lt;/div>
+      &lt;div className="stock-subtitle" role={subtitle}>
+        &lt;span className="stock-subtitle__span">Adicionar novo item&lt;/span>
+      &lt;/div>
+      &lt;div className="stock-preface">
+        &lt;div className="stock-preface-search">
+          &lt;input
             className="stock-preface-search-input"
             type="text"
             placeholder="Buscar..."
             /* onChange={(e) => setQuery(e.target.value)} */
           />
-        </div>
-        <div className="stock-preface-form">
-          <form onSubmit={handleAddFormSubmit}>
-            <input
+        &lt;/div>
+        &lt;div className="stock-preface-form">
+          &lt;form onSubmit={handleAddFormSubmit}>
+            &lt;input
               className="stock-input"
               type="text"
               name="pedido"
@@ -353,7 +399,7 @@ export default function OrderPage(): any {
               placeholder="Insira o nome do item..."
               onChange={handleAddFormChange}
             />
-            <input
+            &lt;input
               className="stock-input"
               type="number"
               name="mesa"
@@ -361,7 +407,7 @@ export default function OrderPage(): any {
               placeholder="Insira uma mesa..."
               onChange={handleAddFormChange}
             />
-            <input
+            &lt;input
               className="stock-input"
               type="text"
               name="waiter"
@@ -369,43 +415,43 @@ export default function OrderPage(): any {
               placeholder="Insira o nome do garçom..."
               onChange={handleAddFormChange}
             />
-            <button
+            &lt;button
               className="stock-preface-search-button"
               type="submit"
               role={buttonName}
             >
               Adicionar
-            </button>
-          </form>
-        </div>
-      </div>
-      <div className="stock-table">
-        <form onSubmit={handleEditFormSubmit}>
-          <ReactBootStrap.Table
+            &lt;/button>
+          &lt;/form>
+        &lt;/div>
+      &lt;/div>
+      &lt;div className="stock-table">
+        &lt;form onSubmit={handleEditFormSubmit}>
+          &lt;ReactBootStrap.Table
             striped
             boardered
             hover
             className="stock-table-striped"
           >
-            <thead role={collumName}>
-              <tr>
-                <th scope="col">{columm1Name}</th>
-                <th scope="col">{columm2Name}</th>
-                <th scope="col">{columm3Name}</th>
-                <th scope="col">{columm4Name}</th>
-                <th scope="col">{columm5Name}</th>
-              </tr>
-            </thead>
-            <tbody>
+            &lt;thead role={collumName}>
+              &lt;tr>
+                &lt;th scope="col">{columm1Name}&lt;/th>
+                &lt;th scope="col">{columm2Name}&lt;/th>
+                &lt;th scope="col">{columm3Name}&lt;/th>
+                &lt;th scope="col">{columm4Name}&lt;/th>
+                &lt;th scope="col">{columm5Name}&lt;/th>
+              &lt;/tr>
+            &lt;/thead>
+            &lt;tbody>
               {itens
                 /* .filter((item) => item.pessoa.toLowerCase().includes(query)) */
                 .map((item) => (
                   // eslint-disable-next-line react/jsx-no-useless-fragment
-                  <>
+                  &lt;>
                     {editItemId === item.id ? (
-                      <tr className="stock-table-striped-editable">
-                        <td>
-                          <input
+                      &lt;tr className="stock-table-striped-editable">
+                        &lt;td>
+                          &lt;input
                             type="text"
                             name="waiterName"
                             required="required"
@@ -413,9 +459,9 @@ export default function OrderPage(): any {
                             value={editFormData.waiter}
                             onChange={handleEditFormChange}
                           />
-                        </td>
-                        <td>
-                          <input
+                        &lt;/td>
+                        &lt;td>
+                          &lt;input
                             type="text"
                             name="table"
                             required="required"
@@ -423,18 +469,18 @@ export default function OrderPage(): any {
                             value={editFormData.mesa}
                             onChange={handleEditFormChange}
                           />
-                        </td>
-                        <td>
-                          <input
+                        &lt;/td>
+                        &lt;td>
+                          &lt;input
                             type="text"
                             name="description"
                             readOnly
                             placeholder="Insira uma descrição..."
                             value={editFormData.order}
                           />
-                        </td>
-                        <td>
-                          <input
+                        &lt;/td>
+                        &lt;td>
+                          &lt;input
                             type="text"
                             name="status"
                             required="required"
@@ -442,39 +488,39 @@ export default function OrderPage(): any {
                             value={editFormData.status}
                             onChange={handleEditFormChange}
                           />
-                        </td>
-                        <td>
-                          <button
+                        &lt;/td>
+                        &lt;td>
+                          &lt;button
                             className="stock-table-button"
                             type="submit"
                             onClick={() => handleEdit(item.id)}
                           >
                             Atualizar
-                          </button>
-                          <button
+                          &lt;/button>
+                          &lt;button
                             className="stock-table-button"
                             type="button"
                             onClick={handleCancelClick}
                           >
                             Cancelar
-                          </button>
-                        </td>
-                      </tr>
+                          &lt;/button>
+                        &lt;/td>
+                      &lt;/tr>
                     ) : (
-                      <tr className="stock-table-striped-readOnly">
-                        <td>{item.waiter}</td>
-                        <td>{item.mesa}</td>
-                        <td className="description">{item.pedido}</td>
-                        <td className="description">{item.status}</td>
-                        <td>
-                          <button
+                      &lt;tr className="stock-table-striped-readOnly">
+                        &lt;td>{item.waiter}&lt;/td>
+                        &lt;td>{item.mesa}&lt;/td>
+                        &lt;td className="description">{item.pedido}&lt;/td>
+                        &lt;td className="description">{item.status}&lt;/td>
+                        &lt;td>
+                          &lt;button
                             className="stock-table-button"
                             type="button"
                             onClick={(event) => handleEditClick(event, item)}
                           >
                             Editar
-                          </button>
-                          <button
+                          &lt;/button>
+                          &lt;button
                             className="stock-table-button"
                             type="button"
                             onClick={() =>
@@ -482,16 +528,45 @@ export default function OrderPage(): any {
                             }
                           >
                             Apagar
-                          </button>
-                        </td>
-                      </tr>
+                          &lt;/button>
+                        &lt;/td>
+                      &lt;/tr>
                     )}
-                  </>
+                  &lt;/>
                 ))}
-            </tbody>
-          </ReactBootStrap.Table>
-        </form>
-      </div>
-    </div>
+            &lt;/tbody>
+          &lt;/ReactBootStrap.Table>
+        &lt;/form>
+      &lt;/div>
+    &lt;/div>
   );
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Mon Sep 19 2022 00:45:56 GMT-0300 (Horário Padrão de Brasília) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

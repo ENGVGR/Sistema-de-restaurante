@@ -29,7 +29,7 @@
     
     <input type="text" id="nav-search" placeholder="Search" />
     
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItem">MenuItem</a></li><li><a href="global.html#MyNavBar">MyNavBar</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#EmployeeMonitoring">EmployeeMonitoring</a></li><li><a href="global.html#handleAddFormChange">handleAddFormChange</a></li><li><a href="global.html#handleAddFormSubmit">handleAddFormSubmit</a></li><li><a href="global.html#handleCancelClick">handleCancelClick</a></li><li><a href="global.html#handleDeleteClick">handleDeleteClick</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleEditClick">handleEditClick</a></li><li><a href="global.html#handleEditFormChange">handleEditFormChange</a></li><li><a href="global.html#handleEditFormSubmit">handleEditFormSubmit</a></li><li><a href="global.html#handleEditStatus">handleEditStatus</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItem">MenuItem</a></li><li><a href="global.html#Monitor">Monitor</a></li><li><a href="global.html#MyNavBar">MyNavBar</a></li><li><a href="global.html#Stock">Stock</a></li></ul>
 </nav>
 
 <div id="main">
@@ -44,19 +44,20 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>//      
-import React from 'react';
+            <pre class="prettyprint source linenums"><code>/* eslint-disable react/jsx-no-useless-fragment */
+//      
+import React, { useContext } from 'react';
 import './index.scss';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 // $FlowFixMe
 import 'bootstrap/dist/css/bootstrap.min.css';
+// $FlowFixMe
+import { Link } from 'react-router-dom';
+import UserContext from '../../context/user.context';
 
 const title = 'title';
-const clientes = 'clientes';
-const pedidos = 'pedidos';
+const login = 'login';
 const cardapio = 'cardápio';
-const estoque = 'estoque';
-const garcons = 'garçons';
 
 /**
  * @function MyNavBar
@@ -65,28 +66,81 @@ const garcons = 'garçons';
  */
 
 export default function MyNavBar()      {
+  const { user, setUser } = useContext(UserContext);
+
   return (
     &lt;Navbar className="navBar">
       &lt;Container>
-        &lt;Navbar.Brand className="navBar-title" role={title}>
+        &lt;Navbar.Text
+          style={{ color: '#ebeaa9', size: '20px' }}
+          className="teste"
+          role={title}
+        >
           X Burger
-        &lt;/Navbar.Brand>
+        &lt;/Navbar.Text>
         &lt;Nav className="me-auto">
-          &lt;Nav.Link className="navBar-link" role={clientes}>
-            Clientes
-          &lt;/Nav.Link>
-          &lt;Nav.Link className="navBar-link" role={pedidos}>
-            Pedidos
-          &lt;/Nav.Link>
-          &lt;Nav.Link className="navBar-link" role={cardapio}>
+          &lt;Nav.Link
+            style={{ color: '#ebeaa9' }}
+            role={cardapio}
+            as={Link}
+            to="/"
+          >
             Cardápio
           &lt;/Nav.Link>
-          &lt;Nav.Link className="navBar-link" role={estoque}>
-            Estoque
-          &lt;/Nav.Link>
-          &lt;Nav.Link className="navBar-link" role={garcons}>
-            Garçons
-          &lt;/Nav.Link>
+          {user ? (
+            &lt;>
+              &lt;Nav.Link style={{ color: '#ebeaa9' }} as={Link} to="/order">
+                Pedidos
+              &lt;/Nav.Link>
+              &lt;Nav.Link
+                style={{ color: '#ebeaa9' }}
+                as={Link}
+                to="/clientMonitoring"
+              >
+                Clientes
+              &lt;/Nav.Link>
+              &lt;Nav.Link style={{ color: '#ebeaa9' }} as={Link} to="/stock">
+                Estoque
+              &lt;/Nav.Link>
+            &lt;/>
+          ) : (
+            &lt;Nav.Link
+              style={{ color: '#ebeaa9' }}
+              role={login}
+              as={Link}
+              to="/login"
+            >
+              Login
+            &lt;/Nav.Link>
+          )}
+
+          &lt;Nav.Link style={{ color: '#ebeaa9' }} as={Link} to="/" />
+          {user &amp;&amp; user.role === 'Admin' ? (
+            &lt;Nav.Link
+              style={{ color: '#ebeaa9' }}
+              as={Link}
+              to="/employeeMonitoring"
+            >
+              Funcionários
+            &lt;/Nav.Link>
+          ) : (
+            &lt;>&lt;/>
+          )}
+          {user ? (
+            &lt;Nav.Link
+              style={{ color: '#ebeaa9' }}
+              role={login}
+              as={Link}
+              to="/login"
+              onClick={() => {
+                setUser();
+              }}
+            >
+              Logout
+            &lt;/Nav.Link>
+          ) : (
+            &lt;>&lt;/>
+          )}
         &lt;/Nav>
       &lt;/Container>
     &lt;/Navbar>
@@ -106,7 +160,7 @@ export default function MyNavBar()      {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Sat Sep 10 2022 17:18:02 GMT-0300 (Horário Padrão de Brasília) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Mon Sep 19 2022 00:45:56 GMT-0300 (Horário Padrão de Brasília) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
