@@ -15,8 +15,8 @@ import UserContext from '../../context/user.context';
 function LoginPage() {
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const image = 'image';
   const card = 'card';
+  const loginButton = 'loginButton';
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -49,12 +49,14 @@ function LoginPage() {
       <MyNavBar />
       <div className="mainDiv">
         <div className="leftDiv">
-          <img role={image} src={waiters} alt="waiters" />
+          <img src={waiters} alt="waiters" />
         </div>
         <div className="rightDiv">
           <form onSubmit={handleSubmit}>
-            <div className="cardLogin" role={card}>
-              <h2 className="title">Hello!</h2>
+            <div className="cardLogin">
+              <h2 className="title" role={card}>
+                Hello!
+              </h2>
               <div className="textfield">
                 <div>
                   <input
@@ -77,7 +79,7 @@ function LoginPage() {
                   />
                 </div>
                 <div>
-                  <button type="submit" className="btn2">
+                  <button type="submit" className="btn2" role={loginButton}>
                     Login
                   </button>
                 </div>

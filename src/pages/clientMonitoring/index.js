@@ -13,7 +13,7 @@ import UserContext from '../../context/user.context';
 const title = 'titleMonitor';
 const subtitle = 'subtitleMonitor';
 const collumName = 'collumNameMonitor';
-const buttonName = 'buttonNameMonitor';
+const buttonAdd = 'buttonNameMonitor';
 
 // Nome das colunas da tabela
 const columm1Name = 'Cliente';
@@ -297,7 +297,7 @@ export default function Monitor(): any {
             <button
               className="monitor-preface-search-button"
               type="submit"
-              role={buttonName}
+              role={buttonAdd}
             >
               Adicionar
             </button>

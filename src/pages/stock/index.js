@@ -189,7 +189,7 @@ export default function Stock(): any {
    * @description Altera as informações do item selecionado.
    * @param {number} itemId - Id do item que será editado.
    */
-  const handleEdit = (itemId: number) => {
+  const handleEdit = (itemId) => {
     const newItem = {
       title: editFormData.title,
       price: editFormData.price,

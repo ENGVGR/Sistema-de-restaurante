@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import EmployeeMonitoring from './index';
 import '@testing-library/jest-dom/extend-expect';
@@ -6,7 +7,13 @@ import '@testing-library/jest-dom/extend-expect';
 afterEach(cleanup);
 
 it('render employee', () => {
-  render(<EmployeeMonitoring />);
+  render(
+    <BrowserRouter>
+      <Routes>
+        <Route element={<EmployeeMonitoring />} path="/" exact />
+      </Routes>
+    </BrowserRouter>
+  );
 
   expect(screen.getByRole('titleEmployee')).toHaveTextContent('Funcionários');
   expect(screen.getByRole('subtitleEmployee')).toHaveTextContent(

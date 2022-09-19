@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import Stock from './index';
 import '@testing-library/jest-dom/extend-expect';
@@ -6,7 +7,13 @@ import '@testing-library/jest-dom/extend-expect';
 afterEach(cleanup);
 
 it('render stock', () => {
-  render(<Stock />);
+  render(
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Stock />} path="/" exact />
+      </Routes>
+    </BrowserRouter>
+  );
 
   expect(screen.getByRole('titleStock')).toHaveTextContent('Estoque');
   expect(screen.getByRole('subtitleStock')).toHaveTextContent(
