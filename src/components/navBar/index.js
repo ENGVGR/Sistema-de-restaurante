@@ -30,7 +30,12 @@ export default function MyNavBar(): any {
           <Nav.Link className="navBar-link" role={clientes} as={Link} to="/">
             Cardápio
           </Nav.Link>
-          <Nav.Link className="navBar-link" role={pedidos}>
+          <Nav.Link
+            className="navBar-link"
+            role={pedidos}
+            as={Link}
+            to="/order"
+          >
             Pedidos
           </Nav.Link>
           <Nav.Link
