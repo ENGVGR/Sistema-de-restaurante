@@ -4,8 +4,8 @@
   
 Sistema web feito para gerenciar um restaurante. Nesse sistema é possível acompanhar todos os processos de venda do restaurante, desde o atendimento ao cliente, até a realização do pagamento e o controle do estoque. Nele há três tipos de usuários:
 - Cliente: Tem acesso ao cardápio.
-- Garçom: Tem o controle sobre o pedido e o pagamento.
-- Gerente: Tem o controle dos garçons, clientes, estoque, pedido e pagamento.
+- Garçom: Tem o controle sobre o pedido.
+- Gerente: Tem o controle dos garçons, clientes, estoque e pedidos.
 
 ## Configurações:
 
