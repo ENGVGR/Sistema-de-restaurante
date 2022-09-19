@@ -210,7 +210,6 @@ export default function Monitor(): any {
     restaurantApi
       .get(`/order/get`)
       .then((response) => {
-        console.log('passou');
         const orderList = response.data;
         orderList.map((user2) => {
           if (costumerId === user2.users_id)

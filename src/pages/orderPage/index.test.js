@@ -1,4 +1,5 @@
 import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { cleanup, render, screen } from '@testing-library/react';
 import OrderPage from './index';
 import '@testing-library/jest-dom/extend-expect';
@@ -6,7 +7,13 @@ import '@testing-library/jest-dom/extend-expect';
 afterEach(cleanup);
 
 it('render stock', () => {
-  render(<OrderPage/>);
+  render(
+    <BrowserRouter>
+      <Routes>
+        <Route element={<OrderPage />} path="/" exact />
+      </Routes>
+    </BrowserRouter>
+  );
 
   expect(screen.getByRole('titleOrder')).toHaveTextContent('Pedidos');
   expect(screen.getByRole('subtitleOrder')).toHaveTextContent(
@@ -16,6 +23,7 @@ it('render stock', () => {
     'Garçom',
     'Mesa',
     'Pedido',
+    'valor',
     'Status',
     'ações'
   );

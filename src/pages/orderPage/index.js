@@ -3,11 +3,13 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable no-param-reassign */
 // @flow
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './index.scss';
 import * as ReactBootStrap from 'react-bootstrap';
 import MyNavBar from '../../components/navBar';
 import restaurantApi from '../../api';
+import UserContext from '../../context/user.context';
 
 // Para Testes
 const title = 'titleOrder';
@@ -19,8 +21,9 @@ const buttonName = 'buttonNameOrder';
 const columm1Name = 'Garçom';
 const columm2Name = 'Mesa';
 const columm3Name = 'Pedido';
-const columm4Name = 'Status';
-const columm5Name = 'ações';
+const columm4Name = 'Valor';
+const columm5Name = 'Status';
+const columm6Name = 'ações';
 
 const data = [];
 
@@ -36,10 +39,10 @@ const data = [];
 export default function OrderPage(): any {
   const [itens, setItens] = useState(data);
   const [newChange, setNewChange] = useState(data);
-  /* const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  if (!user) navigate('/'); */
+  if (!user) navigate('/');
 
   const [addFormData, setAddFormData] = useState({
     mesa: '',
@@ -49,6 +52,7 @@ export default function OrderPage(): any {
     status: '',
     waiter: '',
     item_id: '',
+    price: '',
   });
 
   const [editFormData, setEditFormData] = useState({
@@ -59,6 +63,7 @@ export default function OrderPage(): any {
     status: '',
     waiter: '',
     item_id: '',
+    price: '',
   });
 
   const [editItemId, setEditItemId] = useState(null);
@@ -110,14 +115,6 @@ export default function OrderPage(): any {
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
-    /*  const newItem = {
-      name: addFormData.name,
-      price: addFormData.price,
-      description: addFormData.description,
-      menus_id: 1,
-      users_id: 1,
-    }; */
-
     restaurantApi
       .get(`/costumer/get`)
       .then((response) => {
@@ -146,7 +143,6 @@ export default function OrderPage(): any {
               status: 0,
               customers_id: newCostumerId,
             };
-            console.log(newOrder);
             restaurantApi
               .post(`/order/create`, newOrder)
               .then(() => {})
@@ -185,6 +181,8 @@ export default function OrderPage(): any {
       .catch((e) => {
         console.log(e);
       });
+    setNewChange('response');
+    setNewChange('response2');
   };
 
   /**
@@ -221,9 +219,14 @@ export default function OrderPage(): any {
     setEditItemId(item.id);
 
     const formValues = {
-      name: item.name,
+      mesa: item.mesa,
+      order_id: item.order_id,
+      pedido: item.pedido,
+      pessoa: item.pessoa,
+      status: item.status,
+      waiter: item.waiter,
+      item_id: item.item_id,
       price: item.price,
-      description: item.description,
     };
 
     setEditFormData(formValues);
@@ -251,6 +254,7 @@ export default function OrderPage(): any {
       .catch((e) => {
         console.log(e);
       });
+    setNewChange('response');
   };
 
   /**
@@ -273,6 +277,42 @@ export default function OrderPage(): any {
       .catch((e) => {
         console.log(e);
       });
+    setNewChange('response');
+  };
+
+  /**
+   * @function handleEditStatus
+   * @description Altera o status do pedido do cliente selecionado.
+   * @param {number} costumerId - Id do cliente que será editado.
+   * @param {string} stat - novo status que será recebido.
+   */
+  const handleEditStatus = (waiterId: number, custumersId, stat: string) => {
+    const newStatus = {
+      status: stat,
+    };
+
+    restaurantApi
+      .get(`/order/get`)
+      .then((response) => {
+        const orderList = response.data;
+        console.log(response);
+        orderList.map((user2) => {
+          if (waiterId === user2.users_id && custumersId === user2.customers_id)
+            restaurantApi
+              .patch(`/order/update/${user2.id}`, newStatus)
+              .then((response2) => {
+                setNewChange(response2);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+        });
+      })
+
+      .catch((e) => {
+        console.log(e);
+      });
+    setNewChange('response');
   };
 
   useEffect(() => {
@@ -284,10 +324,10 @@ export default function OrderPage(): any {
           .then((response2) => {
             response.data.map((item) => {
               response2.data.map((order) => {
-                if (order.users_id === item.pessoa) {
-                  item.waiter = order.customers_id || item.waiter;
+                if (order.customers_id === item.pessoa) {
+                  item.waiter = order.users_id || item.waiter;
                   item.order_id = order.order_id || item.order_id;
-                  if (order.status === 1) {
+                  if (order.status && order.status.data[0] === 1) {
                     item.status = 'Finalizado';
                   } else {
                     item.status = 'Em andamento';
@@ -303,11 +343,20 @@ export default function OrderPage(): any {
                   response3.data.map((i) => {
                     if (i.title === item.pedido) {
                       item.item_id = i.id || item.item_id;
+                      item.price = i.price || item.price;
                     }
                   });
                 });
-                setItens(response.data);
-                console.log(response.data);
+                restaurantApi.get(`/users/get`).then((response5) => {
+                  response.data.map((item) => {
+                    response5.data.map((waiter) => {
+                      if (waiter.id === item.waiter) {
+                        item.waiterName = waiter.name || item.waiterName;
+                      }
+                    });
+                  });
+                  setItens(response.data);
+                });
               })
               .catch((e) => {
                 console.log(e);
@@ -328,7 +377,7 @@ export default function OrderPage(): any {
       <MyNavBar />
       <div className="stock-title">
         <span className="stock-title__span" role={title}>
-          Estoque
+          Pedidos
         </span>
       </div>
       <div className="stock-subtitle" role={subtitle}>
@@ -394,6 +443,7 @@ export default function OrderPage(): any {
                 <th scope="col">{columm3Name}</th>
                 <th scope="col">{columm4Name}</th>
                 <th scope="col">{columm5Name}</th>
+                <th scope="col">{columm6Name}</th>
               </tr>
             </thead>
             <tbody>
@@ -407,41 +457,58 @@ export default function OrderPage(): any {
                         <td>
                           <input
                             type="text"
-                            name="waiterName"
-                            required="required"
+                            name="waiter"
+                            readOnly
                             placeholder="Insira o nome do garçon..."
                             value={editFormData.waiter}
-                            onChange={handleEditFormChange}
                           />
                         </td>
                         <td>
                           <input
                             type="text"
-                            name="table"
-                            required="required"
+                            name="mesa"
+                            readOnly
                             placeholder="Insira uma mesa..."
                             value={editFormData.mesa}
-                            onChange={handleEditFormChange}
                           />
                         </td>
                         <td>
                           <input
                             type="text"
-                            name="description"
+                            name="pedido"
                             readOnly
-                            placeholder="Insira uma descrição..."
-                            value={editFormData.order}
+                            placeholder="Insira uma ordem..."
+                            value={editFormData.pedido}
                           />
                         </td>
                         <td>
                           <input
                             type="text"
-                            name="status"
-                            required="required"
-                            placeholder="Insira uma descrição..."
-                            value={editFormData.status}
-                            onChange={handleEditFormChange}
+                            name="price"
+                            readOnly
+                            placeholder="Insira um valor..."
+                            value={editFormData.price}
                           />
+                        </td>
+                        <td>
+                          <button
+                            className="monitor-table-button"
+                            type="submit"
+                            onClick={() =>
+                              handleEditStatus(item.waiter, item.pessoa, 0)
+                            }
+                          >
+                            Em andamento
+                          </button>
+                          <button
+                            className="monitor-table-button"
+                            type="submit"
+                            onClick={() =>
+                              handleEditStatus(item.waiter, item.pessoa, 1)
+                            }
+                          >
+                            Finalizar
+                          </button>
                         </td>
                         <td>
                           <button
@@ -462,10 +529,13 @@ export default function OrderPage(): any {
                       </tr>
                     ) : (
                       <tr className="stock-table-striped-readOnly">
-                        <td>{item.waiter}</td>
+                        <td>{item.waiterName || 'garçom'}</td>
                         <td>{item.mesa}</td>
                         <td className="description">{item.pedido}</td>
-                        <td className="description">{item.status}</td>
+                        <td className="description">{item.price}</td>
+                        <td className="description">
+                          {item.status || 'Em andamento'}
+                        </td>
                         <td>
                           <button
                             className="stock-table-button"
