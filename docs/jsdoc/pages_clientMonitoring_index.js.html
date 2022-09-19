@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>pages/clientMonitoring/index.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#EmployeeMonitoring">EmployeeMonitoring</a></li><li><a href="global.html#handleAddFormChange">handleAddFormChange</a></li><li><a href="global.html#handleAddFormSubmit">handleAddFormSubmit</a></li><li><a href="global.html#handleCancelClick">handleCancelClick</a></li><li><a href="global.html#handleDeleteClick">handleDeleteClick</a></li><li><a href="global.html#handleEdit">handleEdit</a></li><li><a href="global.html#handleEditClick">handleEditClick</a></li><li><a href="global.html#handleEditFormChange">handleEditFormChange</a></li><li><a href="global.html#handleEditFormSubmit">handleEditFormSubmit</a></li><li><a href="global.html#handleEditStatus">handleEditStatus</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuItem">MenuItem</a></li><li><a href="global.html#Monitor">Monitor</a></li><li><a href="global.html#MyNavBar">MyNavBar</a></li><li><a href="global.html#Stock">Stock</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">pages/clientMonitoring/index.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable no-param-reassign */
+/* eslint-disable array-callback-return */
+//      
+import React, { Fragment, useContext, useEffect, useState } from 'react';
+import './index.scss';
+import * as ReactBootStrap from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import MyNavBar from '../../components/navBar';
+import restaurantApi from '../../api';
+import UserContext from '../../context/user.context';
+
+// Para Testes
+const title = 'titleMonitor';
+const subtitle = 'subtitleMonitor';
+const collumName = 'collumNameMonitor';
+const buttonAdd = 'buttonNameMonitor';
+
+// Nome das colunas da tabela
+const columm1Name = 'Cliente';
+const columm2Name = 'Mesa';
+const columm3Name = 'Status';
+
+const data = [];
+
+/**
+ * @function Monitor
+ * @description Tela de monitoramento e edição de clientes.
+ *  Possui as funcionalidades de:
+ *  - Adicionar novas linhas a partir de um formulário e um botão;
+ *  - Editar linhas já existentes a partir de uma coluna de ações;
+ *  - Filtrar os resultados com um bloco de texto
+ * @return {html} Retorna a tela de monitoramento e edição de clientes.
+ */
+export default function Monitor()      {
+  const [itens, setItens] = useState(data);
+  const [newChange, setNewChange] = useState();
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const [addFormData, setAddFormData] = useState({
+    id: '',
+    table: '',
+    status: '',
+  });
+
+  const [editFormData, setEditFormData] = useState({
+    id: '',
+    table: '',
+    status: '',
+  });
+
+  const [editItemId, setEditItemId] = useState(null);
+
+  if (!user) navigate('/');
+
+  /**
+   * @function handleAddFormChange
+   * @description Recebe no formulário de adição de linha nova
+   * as informações digitadas.
+   * @param {React.ChangeEventHandler&lt;HTMLInputElement>} event - Evento de editar os dados de um formulário
+   */
+  const handleAddFormChange = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.getAttribute('name');
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...addFormData };
+    newFormData[fieldName] = fieldValue;
+
+    setAddFormData(newFormData);
+  };
+
+  /**
+   * @function handleEditFormChange
+   * @description Recebe no formulário de edição de linha da tabela existente
+   * as informações digitadas.
+   * @param {React.ChangeEventHandler&lt;HTMLInputElement>} event - Evento de editar os dados de um formulário
+   */
+  const handleEditFormChange = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.getAttribute('name');
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...editFormData };
+    newFormData[fieldName] = fieldValue;
+
+    setEditFormData(newFormData);
+  };
+
+  /**
+   * @function handleAddFormSubmit
+   * @description Recebe um comando de adição de nova linha da tabela
+   * e adiciona as informações informadas à tabela.
+   * @param {React.FormEventHandler&lt;HTMLFormElement>} event - Evento de submeter um formulário
+   */
+  const handleAddFormSubmit = (event) => {
+    event.preventDefault();
+
+    const newTable = {
+      table: parseInt(addFormData.table, 10),
+    };
+
+    restaurantApi
+      .post(`/costumer/create`, newTable)
+      .then(() => {
+        setNewChange(newTable);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  /**
+   * @function handleEditFormSubmit
+   * @description Recebe um comando de confirmação de edição de linha da tabela existente
+   * e sobreescreve a linha da tabela com as informações informadas.
+   * @param {React.FormEventHandler&lt;HTMLFormElement>} event - Evento de submeter um formulário
+   */
+  const handleEditFormSubmit = (event) => {
+    event.preventDefault();
+
+    const editedItem = {
+      id: editFormData.id,
+      table: parseInt(editFormData.table, 10),
+      status: editFormData.status,
+    };
+
+    const newItens = [...itens];
+    const index = itens.findIndex((item) => item.id === editItemId);
+    newItens[index] = editedItem;
+    setItens(newItens);
+    setEditItemId(null);
+  };
+
+  /**
+   * @function handleEditClick
+   * @description Recebe um comando de edição de linha da tabela existente
+   * e modifica a linha da tabela para receber um formulário.
+   * @param {React.MouseEventHandler&lt;HTMLButtonElement>} event - Evento de receber um clique no Botão
+   * @param {Object} item - Objeto que possui os atributos de um item da tabela
+   */
+  const handleEditClick = (event, item) => {
+    event.preventDefault();
+    setEditItemId(item.id);
+
+    const formValues = {
+      table: item.table,
+    };
+
+    setEditFormData(formValues);
+  };
+
+  /**
+   * @function handleCancelClick
+   * @description Recebe um comando para cancelar a edição de linha da tabela existente.
+   */
+  const handleCancelClick = () => {
+    setEditItemId(null);
+  };
+
+  /**
+   * @function handleDeleteClick
+   * @description Recebe um comando para apagar uma linha da tabela existente.
+   * @param {number} itemId - Id do item que será apoagado.
+   */
+  const handleDeleteClick = (itemId) => {
+    restaurantApi
+      .delete(`/costumer/delete/${itemId}`)
+      .then((response) => {
+        setNewChange(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  /**
+   * @function handleEdit
+   * @description Altera o número da mesa do cliente selecionado.
+   * @param {number} costumerId - Id do cliente que será editado.
+   */
+  const handleEdit = (costumerId        ) => {
+    const newTable = {
+      table: parseInt(editFormData.table, 10),
+    };
+
+    restaurantApi
+      .patch(`/costumer/update/${costumerId}`, newTable)
+      .then((response) => {
+        setNewChange(response);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  /**
+   * @function handleEditStatus
+   * @description Altera o status do pedido do cliente selecionado.
+   * @param {number} costumerId - Id do cliente que será editado.
+   * @param {string} stat - novo status que será recebido.
+   */
+  const handleEditStatus = (costumerId        , stat        ) => {
+    const newStatus = {
+      status: stat,
+    };
+
+    restaurantApi
+      .get(`/order/get`)
+      .then((response) => {
+        console.log('passou');
+        const orderList = response.data;
+        orderList.map((user2) => {
+          if (costumerId === user2.users_id)
+            restaurantApi
+              .patch(`/order/update/${user2.id}`, newStatus)
+              .then((response2) => {
+                console.log(stat);
+                setNewChange(response2);
+              })
+              .catch((e) => {
+                console.log(e);
+              });
+        });
+      })
+
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    restaurantApi
+      .get(`/costumer/get`)
+      .then((response) => {
+        restaurantApi
+          .get(`/order/get`)
+          .then((response2) => {
+            const orderList = response2.data;
+            response.data.map((item) => {
+              orderList.map((user2) => {
+                if (item.id === user2.users_id &amp;&amp; user2.status.data[0] === 1)
+                  item.status = 'Finalizado';
+                else if (
+                  item.id === user2.users_id &amp;&amp;
+                  user2.status.data[0] === 0
+                )
+                  item.status = 'Em andamento';
+                else item.status = 'Aguardando atendimento';
+              });
+            });
+            setItens(response.data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [newChange]);
+
+  return (
+    &lt;div className="monitor">
+      &lt;MyNavBar />
+      &lt;div className="monitor-title">
+        &lt;span className="monitor-title__span" role={title}>
+          Acompanhamento de Clientes
+        &lt;/span>
+      &lt;/div>
+      &lt;div className="monitor-subtitle" role={subtitle}>
+        &lt;span className="monitor-subtitle__span">Adicionar novo cliente&lt;/span>
+      &lt;/div>
+      &lt;div className="monitor-preface">
+        &lt;div className="monitor-preface-search">
+          &lt;input
+            className="monitor-preface-search-input"
+            type="text"
+            placeholder="Buscar..."
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        &lt;/div>
+        &lt;div className="monitor-preface-form">
+          &lt;form onSubmit={handleAddFormSubmit}>
+            &lt;input
+              className="monitor-input"
+              type="number"
+              name="table"
+              required="required"
+              placeholder="Número da mesa..."
+              onChange={handleAddFormChange}
+            />
+            &lt;button
+              className="monitor-preface-search-button"
+              type="submit"
+              role={buttonAdd}
+            >
+              Adicionar
+            &lt;/button>
+          &lt;/form>
+        &lt;/div>
+      &lt;/div>
+      &lt;div className="monitor-table">
+        &lt;form onSubmit={handleEditFormSubmit}>
+          &lt;ReactBootStrap.Table
+            striped
+            boardered
+            hover
+            className="monitor-table-striped"
+          >
+            &lt;thead role={collumName}>
+              &lt;tr>
+                &lt;th scope="col">{columm1Name}&lt;/th>
+                &lt;th scope="col">{columm2Name}&lt;/th>
+                &lt;th scope="col">{columm3Name}&lt;/th>
+              &lt;/tr>
+            &lt;/thead>
+            &lt;tbody>
+              {itens
+                .filter((item) =>
+                  item.table.toString().toLowerCase().includes(query)
+                )
+                .map((item) => (
+                  // eslint-disable-next-line react/jsx-no-useless-fragment
+                  &lt;>
+                    {editItemId === item.id ? (
+                      &lt;tr className="monitor-table-striped-editable">
+                        &lt;td>
+                          &lt;input
+                            readOnly
+                            name="id"
+                            required="required"
+                            placeholder="Id"
+                            value={item.id}
+                          />
+                        &lt;/td>
+                        &lt;td>
+                          &lt;input
+                            type="text"
+                            name="table"
+                            required="required"
+                            placeholder="Número da mesa..."
+                            value={editFormData.table}
+                            onChange={handleEditFormChange}
+                          />
+                        &lt;/td>
+                        &lt;td>
+                          &lt;button
+                            className="monitor-table-button"
+                            type="submit"
+                            onClick={() => handleEditStatus(item.id, 0)}
+                          >
+                            Em andamento
+                          &lt;/button>
+                          &lt;button
+                            className="monitor-table-button"
+                            type="submit"
+                            onClick={() => handleEditStatus(item.id, 1)}
+                          >
+                            Finalizar
+                          &lt;/button>
+                        &lt;/td>
+                        &lt;td>
+                          &lt;button
+                            className="monitor-table-button"
+                            type="submit"
+                            onClick={() => handleEdit(item.id)}
+                          >
+                            Atualizar
+                          &lt;/button>
+                          &lt;button
+                            className="monitor-table-button"
+                            type="button"
+                            onClick={handleCancelClick}
+                          >
+                            Cancelar
+                          &lt;/button>
+                        &lt;/td>
+                      &lt;/tr>
+                    ) : (
+                      &lt;tr className="monitor-table-striped-readOnly">
+                        &lt;td>{item.id}&lt;/td>
+                        &lt;td>{item.table}&lt;/td>
+                        &lt;td>{item.status}&lt;/td>
+                        &lt;td>
+                          &lt;button
+                            className="monitor-table-button"
+                            type="button"
+                            onClick={(event) => handleEditClick(event, item)}
+                          >
+                            Editar
+                          &lt;/button>
+                          &lt;button
+                            className="monitor-table-button"
+                            type="button"
+                            onClick={() => handleDeleteClick(item.id)}
+                          >
+                            Apagar
+                          &lt;/button>
+                        &lt;/td>
+                      &lt;/tr>
+                    )}
+                  &lt;/>
+                ))}
+            &lt;/tbody>
+          &lt;/ReactBootStrap.Table>
+        &lt;/form>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Mon Sep 19 2022 00:45:56 GMT-0300 (Horário Padrão de Brasília) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>
